@@ -12,7 +12,7 @@
 
 \usepackage{color}    % Omogućiti boje
 \usepackage{multicol} % Omogućiti više kolumna teksta (npr. 2)
-
+\usepackage{comment}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -33,42 +33,44 @@
 
 \section{Uvodni opis problema}
 
-\textbf{Analiza stava} (sentiment analysis, opinion minning) predstavlja jedan od problema u strojnom učenju čiju je striktnu matematičku definiciju teško dati -- ali postoje metode pomoću kojih se taj problem može opisati. Možemo ju opisno definirati kao skup statističkih metoda i metoda strojnog učenja, odnosno obrade prirodnog jezika kojima se izdvaja, identificira, odnosno zaključuje o stavu izraženom u određenoj tekstualnoj jedinici (rečenici, odnosno odlomku). 
+\textbf{Analiza stava} (sentiment analysis, opinion minning) predstavlja jedan od problema u strojnom učenju čiju je striktnu matematičku definiciju teško dati -- ali postoje metode pomoću kojih se taj problem može opisati. Možemo ju opisno definirati kao skup statističkih metoda i metoda strojnog učenja, odnosno obrade prirodnog jezika kojima se izdvaja, identificira, odnosno zaključuje o stavu izraženom u određenoj tekstualnoj jedinici (rečenici, odnosno odlomku).\\
+Primjene analize stava mogu biti razne, a ovo su samo neke od njih:
+\begin{enumerate}
+	\item Otkrivanje stava o političkim opcijama (vladi, stranci)
+	\item Otkrivanje stava u marketingu -- mišljenje o određenom proizvodu
+	\item Otkrivanje stava o određenom glazbenom sastavu ili određenoj skladbi (glazbenom uratku)
+	\item Otkrivanje stava o određenom filmu
+\end{enumerate}
+Naš projekt će biti orijentiran na 4. točku. Primjena takvog našega problema bi mogla biti iduća: klasifikacijom što određeni korisnik voli gledati (koji žanr) i na temelju onoga što je korisnik rekao o filmovima sličnog sadržaja -- možemo zaključiti hoće li se određenom korisniku $A$ svidjeti određeni film ili ne (i s obzirom na to -- ponuditi mu), osim onoga što je rekao korisnik $A$, možemo vidjeti i stav o filmu ostalih korisnika koji su već pogledali taj film, a koji su davali sličan stav stavu korisnika $A$ o drugim filmovima koje je pogledao korisnik $A$ te na temelju toga zaključiti bi li se korisniku $A$ ponuda svidjela. 
 
 \section{Cilj i hipoteze istraživanja problema}
-
-Naš zadatak: otkriti da li je stav nekog teksta pozitivan ili negativan.
-
-Konkretno, da li je filmska kritika pozitivna ili negativna.
-
-Koristit ćemo sljedeći skup podataka: Polarity data \\
-\url{https://www.cs.cornell.edu/people/pabo/movie-review-data/}
-
-Baseline algorithm:
-
-\begin{itemize}
-	\item Tokenization
-	\item Feature extraction
-	\item Classification using different classifiers
-	\begin{itemize}
-		\item Naive Bayes
-		\item SVM
-		\item MaxEnt
-	\end{itemize}
-\end{itemize}
+Naš zadatak se bazira na slijedećem: otkriti da li je stav izrečen u  nekom tekstu pozitivan ili negativan, konkretno, je li filmska kritika pozitivna ili negativna. Cilj našega projekta je što bolja klasifikacija stava -- odnosno određivanje je li neka kritika o nekom filmu pozitivna ili negativna. Orijentirat ćemo se tako da ispitujemo koja je metoda bolja za klasifikaciju teksta u toj aplikacijskoj domeni.\\
+% ovo staviti u metodologiju i slično...
 
 \section{Pregled dosadašnjih istraživanja}
-
-Možda da spomenemo neke projekte i članke iz ovoga što mi radimo i srodnih područja (subjektivnost, klasifikacija teksta općenito)
-
+U pregledu dosadašnjih istraživanja najviše su se koristili naivni Bayes, SVM i metoda maksimalne entropije. Prema \cite{Pang:2002:TUS:1118693.1118704} u poglavlju 6. (\textit{Figure 3}) jasno se vidi da SVM u većini slučajeva daje najbolje rezultate. Također, u  \cite{stan} je pokazano da se za različite varijacije SVM metode mogu postići različiti (bolji) rezultati. Osim obične metode \textit{Bag of Words} u istraživanju opisanom u \cite{maas-EtAl:2011:ACL-HLT2011} su se koristile takozvane $LSA$ i $LDA$ metode za koje su dobiveni također neki bolji statistički rezultati. Također u \cite{SaLAD:LAS}, uvedena su neka poboljšanja na metodu naivnog Bayesa (Bernoullijev naivni Bayes), poboljšani su rezultati profinjavanjem negacija, manipulacijama sa $n$-gramima te samim izborom značajki.
 \section{Materijali, metodologija i plan istraživanja}
 
-Koristit ćemo već spomenuti skup podataka polarity data koji ćemo možda trebati prilagoditi. Ovaj skup se sastoji od dokumenata(kritike filmova) koji su podijeljeni na dvije klase - pozitivne i negativne kritike. Pomoću njega želimo naučiti naš klasifikator da za dani nepoznati dokument odredi da li je riječ o pozitivnoj ili negativnoj kritici - nadzirano učenje.
+Kao izvor podataka korisit ćemo \cite{dataset}. Podatke ćemo možda morati prilagoditi (odnosno prilagoditi format u kojem je tekst zapisan). Ovaj skup se sastoji od dokumenata(kritike filmova) koji su podijeljeni na dvije klase - pozitivne i negativne kritike. Pomoću njega želimo naučiti naš klasifikator da za dani nepoznati dokument odredi da li je riječ o pozitivnoj ili negativnoj kritici - nadzirano učenje.
 
-Kao značajke ćemo koristiti riječi. Služit ćemo se jednostavnom metodom "Bag of words" koja se temelji samo na broju pojavljivanja značajke, ne uzimajući u obzir poredak i ostale značajke. Dakle, pretpostavljamo da su značajke nezavisne.
+Kao značajke ćemo koristiti riječi. Služit ćemo se jednostavnom metodom \textit{Bag of words} koja se temelji samo na broju pojavljivanja značajke, ne uzimajući u obzir poredak i ostale značajke. Dakle, pretpostavljamo da su značajke nezavisne.
 
-Realizacija projekta - u programskom jeziku Python korištenjem alata NLTK (Natural Language Toolkit).
+Projekt ćemo realizirati u programskom jeziku Python korištenjem alata NLTK (Natural Language Toolkit). 
 
+Kao bazni postupak za praktično provođenje našeg projekta izabrali smo:
+
+\begin{enumerate}
+	\item Razbijanje tekstualne cijeline na tokene (riječi)
+	\item Izlučivanje entiteta -- bitnih značajki -- iz rečenica
+	\item Klasifikacija korištenjem različitih klasifikatora
+	\begin{itemize}
+		\item Naivni Bayes
+		\item Metoda potpornih vektora
+		\item Metoda maksimalne entropije
+	\end{itemize}
+\end{enumerate}
+
+U točci 2. moramo identificirati česte i relevantne imenice, glagole, pridjeve, priloge i slično, a zanemariti one načajke koje se često pojavljuju, a nisu bitne za značenje same kritike (na primjer veznici).
 \subsection{Naive Bayes}
 
 Bayesovo pravilo primijenjno na dokument $d$ i klasu $c$:
