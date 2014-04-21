@@ -1,0 +1,109 @@
+\documentclass[10pt,a4paper,titlepage]{article}
+
+% Napraviti da se normalno može koristiti hrvatski jezik
+\usepackage[croatian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+\usepackage{hyperref} % Linkanje referenci (npr. bibliografija)
+\usepackage{float}    % Omogućiti inline slike u tekstu
+\usepackage[nottoc,numbib]{tocbibind} % Numeriranje bibliografije
+
+\usepackage{color}    % Omogućiti boje
+\usepackage{multicol} % Omogućiti više kolumna teksta (npr. 2)
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{parskip}
+
+\title{Analiza stava\\(Projektni prijedlog)}
+\author{Lana Arzon\\Janko Marohnić\\Antonio Kovačić}
+\date{Zagreb, 2014.}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Uvodni opis problema}
+
+Što je analiza stava (semtiment analysis)? - općenito o temi
+
+\section{Cilj i hipoteze istraživanja problema}
+
+Naš zadatak: otkriti da li je stav nekog teksta pozitivan ili negativan.
+
+Konkretno, da li je filmska kritika pozitivna ili negativna.
+
+Koristit ćemo sljedeći skup podataka: Polarity data \\
+\url{https://www.cs.cornell.edu/people/pabo/movie-review-data/}
+
+Baseline algorithm:
+
+\begin{itemize}
+	\item Tokenization
+	\item Feature extraction
+	\item Classification using different classifiers
+	\begin{itemize}
+		\item Naive Bayes
+		\item SVM
+		\item MaxEnt
+	\end{itemize}
+\end{itemize}
+
+\section{Pregled dosadašnjih istraživanja}
+
+Možda da spomenemo neke projekte i članke iz ovoga što mi radimo i srodnih područja (subjektivnost, klasifikacija teksta općenito)
+
+\section{Materijali, metodologija i plan istraživanja}
+
+Koristit ćemo već spomenuti skup podataka polarity data koji ćemo možda trebati prilagoditi. Ovaj skup se sastoji od dokumenata(kritike filmova) koji su podijeljeni na dvije klase - pozitivne i negativne kritike. Pomoću njega želimo naučiti naš klasifikator da za dani nepoznati dokument odredi da li je riječ o pozitivnoj ili negativnoj kritici - nadzirano učenje.
+
+Kao značajke ćemo koristiti riječi. Služit ćemo se jednostavnom metodom "Bag of words" koja se temelji samo na broju pojavljivanja značajke, ne uzimajući u obzir poredak i ostale značajke. Dakle, pretpostavljamo da su značajke nezavisne.
+
+Realizacija projekta - u programskom jeziku Python korištenjem alata NLTK (Natural Language Toolkit).
+
+\subsection{Naive Bayes}
+
+Bayesovo pravilo primijenjno na dokument $d$ i klasu $c$:
+
+\[P(c|d) = \frac{P(d|c)P(c)}{P(d)}.\]
+
+Klasa kojoj najvjerojatnije pripada dokument (maximum a posteriori class):
+
+\[c_{\text{MAP}} = \underset{{c \in C}}{\text{argmax }} \frac{P(d|c)P(c)}{P(d)}
+= \underset{{c \in C}}{\text{argmax }} P(d|c)P(c).\] 
+
+Odnosno, ako dokument $d$ reprezentiramo pomoću značajki $x_1, x_2, \ldots, x_n$:
+
+\[c_{\text{MAP}} = \underset{{c \in C}}{\text{argmax }} P(x_1, x_2, \ldots, x_n|c)P(c).\] 
+
+\subsection{MaxEnt (možda)}
+
+Ovo nisam još proučila
+
+\subsection{SVM (možda)}
+
+Ni ovo :)
+
+\section{Očekivani rezultati predloženog projekta}
+
+Želimo naučiti klasifikator da dobro prepoznaje kojoj klasi dokument pripada. Možda bi mogli napraviti evaluaciju modela - accuracy, precision/recall, $F_1$ score.
+
+Usporedba - Naive Bayes, MaxEnt, SVM.
+
+\newpage
+
+\nocite{Pang:2002:TUS:1118693.1118704}
+\nocite{bird2009natural}
+
+\bibliographystyle{unsrt}
+\bibliography{sentiment}
+
+\end{document}
