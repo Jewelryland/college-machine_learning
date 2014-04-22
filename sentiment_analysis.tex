@@ -80,18 +80,18 @@ Kao bazni postupak za praktično provođenje našeg projekta izabrali smo:
 
 U točki 2. moramo identificirati česte i relevantne imenice, glagole, pridjeve, priloge i slično, a zanemariti one načajke koje se često pojavljuju, a nisu bitne za značenje same kritike (na primjer veznici).
 
-\subsection{Naive Bayes}
+\subsection{Naivni Bayes}
 
-Bayesovo pravilo primijenjno na dokument $d$ i klasu $c$:
+Neka imamo dokument $d$ i klasu dokumenta $c$ (u našem slučaju je $c \in \{\text{kritika je negativna}, \text{kritika je pozitivna}\}$). Tada $P(c|d)$ predstavlja "vjerojatnost da je dokument $d$ klase $c$". Po Bayesovoj formuli, imamo
 
 \[
 P(c|d) = \frac{P(d|c)P(c)}{P(d)}.
 \]
 
-Klasa kojoj najvjerojatnije pripada dokument (maximum a posteriori class):
+Klasa kojoj s najvećom vjerojatnosti pripada dokument $d$ (\textbf{M}aximum \textbf{A} \textbf{P}osteriori):
 
 \[
-c_{\text{MAP}}
+c_{\textsc{MAP}}
 = \argmax_{c \in C} \frac{P(d|c)P(c)}{P(d)}
 = \argmax_{c \in C} P(d|c)P(c).
 \]
@@ -99,7 +99,7 @@ c_{\text{MAP}}
 Odnosno, ako dokument $d$ reprezentiramo pomoću značajki $x_1, x_2, \ldots, x_n$:
 
 \[
-c_{\text{MAP}}
+c_{\textsc{MAP}}
 = \argmax_{c \in C} P(x_1, x_2, \ldots, x_n|c)P(c).
 \]
 
