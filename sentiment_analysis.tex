@@ -23,6 +23,8 @@
 \author{Lana Arzon\\Janko Marohnić\\Antonio Kovačić}
 \date{Zagreb, 2014.}
 
+\DeclareMathOperator*{\argmax}{arg\,max}
+
 \begin{document}
 
 \maketitle
@@ -82,16 +84,24 @@ U točki 2. moramo identificirati česte i relevantne imenice, glagole, pridjeve
 
 Bayesovo pravilo primijenjno na dokument $d$ i klasu $c$:
 
-\[P(c|d) = \frac{P(d|c)P(c)}{P(d)}.\]
+\[
+P(c|d) = \frac{P(d|c)P(c)}{P(d)}.
+\]
 
 Klasa kojoj najvjerojatnije pripada dokument (maximum a posteriori class):
 
-\[c_{\text{MAP}} = \underset{{c \in C}}{\text{argmax }} \frac{P(d|c)P(c)}{P(d)}
-= \underset{{c \in C}}{\text{argmax }} P(d|c)P(c).\] 
+\[
+c_{\text{MAP}}
+= \argmax_{c \in C} \frac{P(d|c)P(c)}{P(d)}
+= \argmax_{c \in C} P(d|c)P(c).
+\]
 
 Odnosno, ako dokument $d$ reprezentiramo pomoću značajki $x_1, x_2, \ldots, x_n$:
 
-\[c_{\text{MAP}} = \underset{{c \in C}}{\text{argmax }} P(x_1, x_2, \ldots, x_n|c)P(c).\] 
+\[
+c_{\text{MAP}}
+= \argmax_{c \in C} P(x_1, x_2, \ldots, x_n|c)P(c).
+\]
 
 \subsection{MaxEnt (možda)}
 
