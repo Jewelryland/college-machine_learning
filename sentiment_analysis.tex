@@ -70,15 +70,20 @@ Kao bazni postupak za praktično provođenje našeg projekta izabrali smo:
 \begin{enumerate}
   \item Razbijanje tekstualne cijeline na tokene (riječi)
   \item Izlučivanje entiteta -- bitnih značajki -- iz rečenica
+    \begin{itemize}
+      \item To uključuje identificiranje relevantnih imenica, glagola, priloga i sl, a zanemrivanje onih značajki koje se često pojavljuju, a nisu bitne za značenje same kritike (npr. veznici).
+    \end{itemize}
+  \item Izbacivanje objektivnih dijelova rečenica
+    \begin{itemize}
+      \item Na primjer, iako rečenica "Taj dan John je naišao na prelijepu djevojku." sadrži riječ "lijep", ne govori nam ništa o autorovom mišljenju, i ta rečenica može čak biti dio negativne kritike.
+    \end{itemize}
   \item Klasifikacija korištenjem različitih klasifikatora
-  \begin{itemize}
-    \item Naivni Bayes
-    \item Metoda potpornih vektora
-    \item Metoda maksimalne entropije
-  \end{itemize}
+    \begin{itemize}
+      \item Naivni Bayes
+      \item Metoda potpornih vektora
+      \item Metoda maksimalne entropije
+    \end{itemize}
 \end{enumerate}
-
-U točki 2. moramo identificirati česte i relevantne imenice, glagole, pridjeve, priloge i slično, a zanemariti one načajke koje se često pojavljuju, a nisu bitne za značenje same kritike (na primjer veznici).
 
 \subsection{Naivni Bayes}
 
