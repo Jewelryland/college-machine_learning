@@ -118,16 +118,22 @@ gdje je
                          0, & \text{inače}
                        \end{cases}
     \]
-  \item $\lambda_{i,c}$ su težine značajki (veliki $\lambda{i,c}$ znači da se $f_i$ smatra jakim indikatorom za klasu $c$)
+  \item $\lambda_{i,c}$ su težine značajki (veliki $\lambda_{i,c}$ znači da se $f_i$ smatra jakim indikatorom za klasu $c$)
 \end{itemize}
 
 \subsection{Metoda potpornih vektora}
 
-\textcolor{red}{Ne mogu je skužiti :P}
+Metoda potpornih vektora pokazala se vrlo učinkovitom kod klasične kategorizacije teksta, dajući većinom bolje rezultate od Naivnog Bayesa. Za razliku od Naivnog Bayesa i maksimalne entropije koji koriste vjerojatnost, ova metoda traži hiper-ravninu koja ima najveću marginu razdvajanja klasa -- u našem slučaju pozitivne i negativne klase. Neka je $c_j \in \{1, -1\}$ reprezentacija odgovarajuće klase kojoj propada dokument $d_j$. Tada vektor koji određuje traženu hiper-ravninu možemo zapisati kao:
+
+\[
+	\vec{w} = \sum_j \alpha_j c_j \vec{d_j}, \quad \alpha_j \ge 0,
+\]
+
+gdje su $\alpha_j$ rješenja dualnog problema optimizacije. Vektori $\vec{d_j}$ za koje je $\alpha_j > 0$ zovu se potporni vektori. Klasifikacija testnih dokumenata vrši se na temelju toga s koje strane hiper-ravnine se oni nalaze.
 
 \section{Očekivani rezultati predloženog projekta}
 
-Želimo naučiti klasifikator da dobro prepoznaje kojoj klasi dokument pripada. Možda bi mogli napraviti evaluaciju modela -- accuracy, precision/recall, $F_1$ score.
+Želimo naučiti klasifikator da dobro prepoznaje kojoj klasi dokument pripada (provjera pomoću cross validacije). Možda bi mogli napraviti evaluaciju modela -- accuracy, precision/recall, $F_1$ score.
 
 Usporedba -- Naivni Bayes, Maksimalna entropija, SVM.
 
