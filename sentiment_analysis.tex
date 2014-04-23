@@ -99,13 +99,27 @@ Neka je $f_1, f_2, \ldots, f_n$ skup značajki koji se mogu pojaviti u dokumentu
   P_\text{NB}(c|d) := \frac{P(c)\left(\prod_{i=1}^{m} P(f_i|c)^{n_i(d)}\right)}{P(d)}.
 \]
 
+\subsection{Maksimalna entropija}
+
+Maksimalna entropija ponekad, ali ne uvijek, daje bolje rezultate od Naivnog Bayesa. Njena procjena $P(c|d)$ ima sljedeću eksponencijalnu formu:
 
 \[
+  P_\text{NB}(c|d) := \frac{1}{Z(d)} \exp \left(\sum_i \lambda_{i,c} F_{i,c}(d,c)\right),
 \]
 
-\subsection{Maksimalna entropija (možda)}
+gdje je
 
-\textcolor{red}{Ovo nisam još proučila.}
+\begin{itemize}
+  \item $Z(d)$ normalizirajuća funkcija
+  \item $F_{i,c}$ karakteristična funkcija za značajku $f_i$ i klasu $c$:
+    \[
+      F_{i,c}(d,c') := \begin{cases}
+                         1, & n_i(d) > 0 \text{ i } c' = c\\
+                         0, & \text{inače}
+                       \end{cases}
+    \]
+  \item $\lambda_{i,c}$ su težine značajki (veliki $\lambda{i,c}$ znači da se $f_i$ smatra jakim indikatorom za klasu $c$)
+\end{itemize}
 
 \subsection{Support Vector Machines (možda)}
 
