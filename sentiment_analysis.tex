@@ -90,22 +90,17 @@ Kao bazni postupak za praktično provođenje našeg projekta izabrali smo:
 Neka imamo dokument $d$ i klasu dokumenta $c$ (u našem slučaju je $c \in \{\text{kritika je negativna}, \text{kritika je pozitivna}\}$). Tada $P(c|d)$ predstavlja "vjerojatnost da je dokument $d$ klase $c$". Po Bayesovoj formuli, imamo
 
 \[
-P(c|d) = \frac{P(d|c)P(c)}{P(d)}.
+  P(c|d) = \frac{P(d|c)P(c)}{P(d)}.
 \]
 
-Klasa kojoj s najvećom vjerojatnosti pripada dokument $d$ (\textbf{M}aximum \textbf{A} \textbf{P}osteriori):
+Neka je $f_1, f_2, \ldots, f_n$ skup značajki koji se mogu pojaviti u dokumentu, i neka je $n_i(d)$ broj pojave $f_i$ u dokumentu $d$. Tada imamo
 
 \[
-c_{\textsc{MAP}}
-= \argmax_{c \in C} \frac{P(d|c)P(c)}{P(d)}
-= \argmax_{c \in C} P(d|c)P(c).
+  P_\text{NB}(c|d) := \frac{P(c)\left(\prod_{i=1}^{m} P(f_i|c)^{n_i(d)}\right)}{P(d)}.
 \]
 
-Odnosno, ako dokument $d$ reprezentiramo pomoću značajki $x_1, x_2, \ldots, x_n$:
 
 \[
-c_{\textsc{MAP}}
-= \argmax_{c \in C} P(x_1, x_2, \ldots, x_n|c)P(c).
 \]
 
 \subsection{Maksimalna entropija (možda)}
