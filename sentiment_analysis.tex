@@ -55,7 +55,7 @@ Naš zadatak se bazira na slijedećem: otkriti da li je stav izrečen u nekom te
 
 \section{Pregled dosadašnjih istraživanja}
 
-U pregledu dosadašnjih istraživanja najviše su se koristile metode zvane "Naivni Bayes", "Metoda potpornih vektora" (\textsc{SVM}) i "Maksimalna entropija". Prema \cite{Pang:2002:TUS:1118693.1118704} u poglavlju 6. (\textit{Figure 3}) jasno se vidi da \textsc{SVM} u većini slučajeva daje najbolje rezultate. Također, u \cite{stan} je pokazano da se za različite varijacije \textsc{SVM} metode mogu postići različiti (bolji) rezultati. Osim obične metode \textit{Bag of Words} opisane u istraživanju \cite{stan}, koristile su se takozvane \textsc{LDA} i \textsc{TF-IDF} metode - za\textsc{TF-IDF} su globalno gledano dobiveni neznatno bolji statistički rezultati, dok za \textsc{LDA} lošiji (\textit{Figure 3.} i \textit{Figure 4}). Također u \cite{SaLAD:LAS}, uvedena su neka poboljšanja na metodu naivnog Bayesa (Bernoullijev naivni Bayes), poboljšani su rezultati profinjavanjem negacija, manipulacijama sa $n$-gramima te samim izborom značajki. U istraživanju \cite{maas-EtAl:2011:ACL-HLT2011} se spominje još metoda \textsc{LSA} za odabir značajki. Prigodom odabira značajki, mogu se vidjeti razne varijacije -- osim pojavnosti same riječi u kritikama, može se promatrati i njena pozicija u rečenici ili čak kontekst što je prikazano u \cite{Pang:2002:TUS:1118693.1118704}.
+U pregledu dosadašnjih istraživanja najviše su se koristile metode zvane "Naivni Bayes", "Metoda potpornih vektora" (\textsc{SVM}) i "Maksimalna entropija". Prema \cite{Pang:2002:TUS:1118693.1118704} u poglavlju 6. (\textit{Figure 3}) jasno se vidi da \textsc{SVM} u većini slučajeva daje najbolje rezultate. Također, u \cite{stan} je pokazano da se za različite varijacije \textsc{SVM} metode mogu postići različiti (bolji) rezultati. Osim obične metode \textit{Bag of Words} opisane u istraživanju \cite{stan}, koristile su se takozvane \textsc{LDA} i \textsc{TF-IDF} metode -- za \textsc{TF-IDF} su globalno gledano dobiveni neznatno bolji statistički rezultati, dok za \textsc{LDA} lošiji (\textit{Figure 3.} i \textit{Figure 4}). Također u \cite{SaLAD:LAS}, uvedena su neka poboljšanja na metodu naivnog Bayesa (Bernoullijev naivni Bayes), poboljšani su rezultati profinjavanjem negacija, manipulacijama sa $n$-gramima te samim izborom značajki. U istraživanju \cite{maas-EtAl:2011:ACL-HLT2011} se spominje još metoda \textsc{LSA} za odabir značajki. Prigodom odabira značajki, mogu se vidjeti razne varijacije -- osim pojavnosti same riječi u kritikama, može se promatrati i njena pozicija u rečenici ili čak kontekst što je prikazano u \cite{Pang:2002:TUS:1118693.1118704}.
 
 \section{Materijali, metodologija i plan istraživanja}
 
@@ -133,9 +133,7 @@ gdje su $\alpha_j$ rješenja dualnog problema optimizacije. Vektori $\vec{d_j}$ 
 
 \section{Očekivani rezultati predloženog projekta}
 
-Želimo naučiti klasifikator da dobro prepoznaje kojoj klasi dokument pripada (provjera pomoću cross validacije). Možda bi mogli napraviti evaluaciju modela -- accuracy, precision/recall, $F_1$ score.
-
-Usporedba -- Naivni Bayes, Maksimalna entropija, SVM.
+Očekujemo da će nakon skupa za učenje naš klasifikator naučiti dobro prepoznati kojoj klasi pripada određena kritika (provjera pomoću cross validacije). Očekujemo da će u kategoriji \textit{Bag of words} SVM dati najbolje rezultate.
 
 \newpage
 
