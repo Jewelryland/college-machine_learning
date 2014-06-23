@@ -1,0 +1,115 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[croatian]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\begin{document}
+
+\title{Analiza stava u filmskim kritikama}
+
+%5-10 stranica
+%uvod (motivacija i ciljevi), opis problema (skup podataka), opis vaše metode i pristupa za rješavanje problema, prikaz rezultata (grafovi), osvrt na druge pristupe, mogući budući nastavak istraživanja
+
+\author{
+	\IEEEauthorblockN{Antonio Kovačić}
+	\IEEEauthorblockA{
+		Sveučilište u Zagrebu\\
+    	PMF--Matematički odsjek\\
+    	Računarstvo i matematika\\
+    	Zagreb, Hrvatska\\
+    	in.math0@gmail.com
+	}
+	\and
+	\IEEEauthorblockN{Janko Marohnić}
+	\IEEEauthorblockA{
+		Sveučilište u Zagrebu\\
+    	PMF--Matematički odsjek\\
+    	Računarstvo i matematika\\
+    	Zagreb, Hrvatska\\
+    	janko.marohnic@gmail.com
+	}
+	\and
+	\IEEEauthorblockN{Lana Arzon}
+	\IEEEauthorblockA{
+		Sveučilište u Zagrebu\\
+    	PMF--Matematički odsjek\\
+    	Računarstvo i matematika\\
+    	Zagreb, Hrvatska\\
+    	lana.arzon@gmail.com
+	}
+}
+
+\maketitle
+
+\begin{abstract}
+Analiza stava (\textit{Sentiment Analysis}) je problem klasifikacije teksta čiji je cilj odrediti stav autora teksta o temi koja je obrađena u tom tekstu. U najjednostavnijem obliku, određuje se da li je stav pozitivan ili negativan. U ovom istraživanju ćemo se baviti analizom stava u filmskim kritikama, odnosno određivanjem da li je kritika pozitivna ili negativna.
+\end{abstract}
+
+\IEEEpeerreviewmaketitle
+
+\section{Uvod}
+
+Analiza stava jedan je od zadataka prirodne obrade teksta (\textit{Natural Language Processing} -- NLP), grane računarstva, umjetne inteligencije i lingvistike koja se bavi interakcijama između računala i ljudskog (prirodnog) jezika. Jedan od glavnih izazova u NLP je omogućiti računalima ``razumijevanje" prirodnog jezika, to jest omogućiti im obradu teksta napisanog prirodnim jezikom u svrhu automatskog generiranja željenih rezultata. Današnji NLP algoritmi koriste metode strojnog učenja, najčešće statističke metode. Sljedeće tri metode pokazale su se vrlo efikasnim kod rješavanja problema klasične klasifikacije teksta po temi: Naive Bayes, metoda maksimalne entropije (\textit{Maximum Entropy}) i metoda potpornih vektora (\textit{Support Vector Machines} -- SVM). Analiza stava pokazala se nešto zahtjevnijim (ali i izazovnijim) zadatkom pa ne očekujemo tako dobre rezultate. Naime, ono što analizu stava čini teškom je to da stav nije samo zbroj sentimentalne vrijednosti riječi već ovisi i o kontekstu, a i često se izražava neizravno. Ipak, ove standardne metode trebale bi dati zadovoljavajuće rezultate pa ćemo dvije od navedenih iskoristiti u našem istraživanju: Naive Bayes i SVM.
+
+\section{Opis problema}
+
+Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili negativan, to jest naučiti klasifikator da što bolje (točnije) raspoređuje tekstove na ove dvije klase. Konkretno, bavimo se pitanjem da li je filmska kritika pozitivna ili negativna. Koristit ćemo skup podataka ``Movie Review Data" \cite{dataset}, točnije polarity dataset, koji je sastoji od ukupno 2000 tekstova filmskih kritika, 1000 pozitivnih i 1000 negativnih. Pomoću ovog skupa podataka i metoda strojnog učenja omogućit ćemo da klasifikator određuje i stav novih kritika (na kojima nije treniran).
+
+\section{Alati}
+
+\subsection{NLTK}
+
+\section{Metode}
+
+\subsection{Naive Bayes}
+
+\subsection{SVM}
+
+\section{Evaluacija}
+
+\subsection{Train and test}
+
+\subsection{k-fold cross validation}
+
+\section{Rezultati}
+
+\begin{thebibliography}{1}
+
+\bibitem{thumbsup}
+	Bo Pang, Lillian Lee, Shivakumar Vaithyanathan,
+ 	Thumbs Up?: Sentiment Classification Using Machine Learning Techniques,
+ 	Proceedings of the ACL-02 Conference on Empirical Methods in Natural Language Processing - Volume 10,
+ 	Association for Computational Linguistics,
+	Stroudsburg, PA, USA,
+	2002.
+	
+\bibitem{nltk}
+	S. Bird, E. Klein, E. Loper,
+	Natural Language Processing with Python,
+	O'Reilly Media,
+	2009.
+
+\bibitem{dataset}
+	Bo Pang and Lillian Lee,
+	Movie Review Data\\
+	\url{https://www.cs.cornell.edu/people/pabo/movie-review-data/}
+	
+\bibitem{words}
+	Opinion Lexicon (Sentiment Lexicon)\\
+	\url{http://www.cs.uic.edu/~liub/FBS/sentiment-analysis.html#lexicon}
+	
+\bibitem{githubrepo}
+	A. Kovačić, J. Marohnić, L. Arzon,
+	Analiza stava u filmskim kritikama,
+	GitHub repozitorij\\
+	\url{https://github.com/janko-m/college-machine_learning}
+
+\end{thebibliography}
+
+\end{document}
