@@ -65,9 +65,36 @@ Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili nega
 
 \subsection{NLTK}
 
-\section{Metode}
+\section{Odabir značajki}
+
+\subsection{Filtriranje}
+
+\subsection{TF-IDF}
+
+\subsection{Najinformativnije značajke Naive Bayes klasifikatora}
+
+\section{Metode strojnog učenja}
 
 \subsection{Naive Bayes}
+
+Naive Bayes je jednostavna metoda strojnog učenja koja se temelji na Bayesovom pravilu primijenom na dokument $d$ i klasu $c$:
+
+\[P(c|d) = \frac{P(d|c)P(c)}{P(d)}.\]
+
+Klasa kojoj najvjerojatnije pripada dokument (maximum a posteriori class) dana je s:
+
+\[c_{\text{MAP}} = \underset{{c \in C}}{\text{argmax }} \frac{P(d|c)P(c)}{P(d)}
+= \underset{{c \in C}}{\text{argmax }} P(d|c)P(c).\] 
+
+Odnosno, ako dokument $d$ reprezentiramo pomoću značajki $x_1, x_2, \ldots, x_n$:
+
+\[c_{\text{MAP}} = \underset{{c \in C}}{\text{argmax }} P(x_1, x_2, \ldots, x_n|c)P(c).\]
+
+Osnovna pretpostavka koju koristi Naive Bayes je da su značajke međusobno nezavisne, to jest da vrijedi:
+
+\[P(x_1, x_2, \ldots, x_n|c) = \prod_{i=1}^n P(x_i|c).\]
+
+Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona očito pogrešna, Naive Bayes se pokazao kao jako dobra metoda za klasifikaciju teksta, pa tako i za analizu stava. U našem slučaju (analiza stava u filmskim kritikama), uz dobar odabir značajki, daje također zadovoljavajuće rezultate (u najboljem slučaju uspjeli smo postići točnost od $86.75\%$).
 
 \subsection{SVM}
 
