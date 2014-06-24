@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{listings}
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
@@ -48,7 +49,7 @@
 \maketitle
 
 \begin{abstract}
-Analiza stava (\textit{Sentiment Analysis}) je problem klasifikacije teksta čiji je cilj odrediti stav autora teksta o temi koja je obrađena u tom tekstu. U najjednostavnijem obliku, određuje se da li je stav pozitivan ili negativan. U ovom istraživanju ćemo se baviti analizom stava u filmskim kritikama, odnosno određivanjem da li je kritika pozitivna ili negativna.
+Analiza stava (\textit{Sentiment Analysis}) je problem klasifikacije teksta čiji je cilj odrediti stav autora teksta o temi koja je obrađena u tom tekstu. U najjednostavnijem obliku, određuje se da li je stav pozitivan ili negativan. U ovom istraživanju ćemo se baviti analizom stava u filmskim kritikama, odnosno određivanjem da li je kritika pozitivna ili negativna. Koristit ćemo različite metode odabira značajki i dvije poznate metode za klasifikaciju teksta -- Naive Bayes i SVM, te napraviti usporedbu njihovih uspješnosti u različitim kombinacijama.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -59,7 +60,7 @@ Analiza stava jedan je od zadataka prirodne obrade teksta (\textit{Natural Langu
 
 \section{Opis problema}
 
-Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili negativan, to jest naučiti klasifikator da što bolje (točnije) raspoređuje tekstove na ove dvije klase. Konkretno, bavimo se pitanjem da li je filmska kritika pozitivna ili negativna. Koristit ćemo skup podataka ``Movie Review Data" \cite{dataset}, točnije polarity dataset, koji je sastoji od ukupno 2000 tekstova filmskih kritika, 1000 pozitivnih i 1000 negativnih. Pomoću ovog skupa podataka i metoda strojnog učenja omogućit ćemo da klasifikator određuje i stav novih kritika (na kojima nije treniran).
+Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili negativan, to jest naučiti klasifikator da što bolje (točnije) raspoređuje tekstove na ove dvije klase. Konkretno, bavimo se pitanjem da li je filmska kritika pozitivna ili negativna. Koristit ćemo skup podataka ``Movie Review Data" \cite{dataset}, točnije polarity dataset, koji je sastoji od ukupno 2000 tekstova filmskih kritika pisanih na engleskom jeziku, 1000 pozitivnih i 1000 negativnih. Pomoću ovog skupa podataka i metoda strojnog učenja omogućit ćemo da klasifikator određuje i stav novih kritika (na kojima nije treniran).
 
 \section{Alati}
 
@@ -67,11 +68,30 @@ Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili nega
 
 \section{Odabir značajki}
 
-\subsection{Filtriranje}
+Značajke (\textit{features}) su karakteristike teksta pomoću kojih metoda nastoji dobiti sliku o tome koji stav dominira u tekstu. Odabir značajki vrlo je važan proces jer bitno utječe na brzinu i kvalitetu klasifikacije. Potrebno je odabrati one značajke koje će nam na neki način dati najviše informacije o stavu teksta pazeći pritom da ih ne odaberemo niti previše, a niti premalo. Odaberemo li previše značajki, učenje klasifikatora može trajati jako dugo, a postoji i opasnost od pretreniranja (overfitting). S druge strane, premali broj značajki sigurno neće dati zadovoljavajuću klasifikaciju na novim primjerima, a mogući je čak i underfitting.
+
+Kao značajke ćemo koristiti prvenstveno riječi iz liste odabranih sentiment riječi \cite{words} koje su se pokazale kao dobar indikator stava u filmskim kritikama. Ovaj skup sadrži oko 6800 riječi. Samo ovakvim jednostavnim pristupom uspjeli smo postići zadovoljavajuću točnost (oko $80\%$ za Naive Bayes). No, učenje klasifikatora je relativno sporo zbog prevelikog broja značajki. Ipak, zbog dobrog rezultata klasifikacije, daljnji odabir značajki ćemo raditi na temelju ove liste riječi.
 
 \subsection{TF-IDF}
 
 \subsection{Najinformativnije značajke Naive Bayes klasifikatora}
+
+Ova metoda odabira značajki koristi Naive Bayes klasifikator implementiran u alatu NLTK. Najprije smo naučili klasifikator na svim riječima iz prethodno spomenute liste te zatim spremili 500 riječi koje je klasifikator ocijenio kao najinformativnije (most\_infotmative\_features). Nakon što smo pokrenuli novi Naive Bayes klasifikator koji kao značajke koristi samo ovih 500 riječi primijetili smo poboljšanje i u brzini učenja, ali i u točnosti (oko $85\%$).
+
+\begin{lstlisting}[language = Python, frame = single, basicstyle=\tiny\ttfamily]
+>>> classifier.show_most_informative_features(10)
+Most Informative Features
+               insulting = True           negati : positi =     16.9 : 1.0
+               ludicrous = True           negati : positi =     12.5 : 1.0
+               strongest = True           positi : negati =     11.8 : 1.0
+             outstanding = True           positi : negati =     11.5 : 1.0
+               stupidity = True           negati : positi =     11.3 : 1.0
+              astounding = True           positi : negati =     11.1 : 1.0
+               laughably = True           negati : positi =     10.9 : 1.0
+                 idiotic = True           negati : positi =     10.5 : 1.0
+                  hatred = True           positi : negati =     10.4 : 1.0
+        incomprehensible = True           negati : positi =      8.9 : 1.0
+\end{lstlisting}
 
 \section{Metode strojnog učenja}
 
@@ -94,11 +114,23 @@ Osnovna pretpostavka koju koristi Naive Bayes je da su značajke međusobno neza
 
 \[P(x_1, x_2, \ldots, x_n|c) = \prod_{i=1}^n P(x_i|c).\]
 
-Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona očito pogrešna, Naive Bayes se pokazao kao jako dobra metoda za klasifikaciju teksta, pa tako i za analizu stava. U našem slučaju (analiza stava u filmskim kritikama), uz dobar odabir značajki, daje također zadovoljavajuće rezultate (u najboljem slučaju uspjeli smo postići točnost od $86.75\%$).
+Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona očito pogrešna, Naive Bayes se pokazao kao jako dobra metoda za klasifikaciju teksta, pa tako i za analizu stava. U našem slučaju (analiza stava u filmskim kritikama), uz dobar odabir značajki, daje također zadovoljavajuće rezultate (u najboljem slučaju uspjeli smo postići točnost od $87.75\%$ na skupu za testiranje).
 
 \subsection{SVM}
 
 \section{Evaluacija}
+
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  \multicolumn{2}{|c|}{Matrica}  & \multicolumn{2}{|c|}{Stvarna klasa} \\ 
+  \cline{3-4}
+  \multicolumn{2}{|c|}{konfuzije} & pozitivno & negativno \\ 
+  \hline
+  Predviđeno & pozitivno & 175 & 27 \\
+  \cline{2-4}
+  modelom & negativno & 31 & 167 \\
+  \hline
+\end{tabular}
 
 \subsection{Train and test}
 
@@ -109,21 +141,31 @@ Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona o
 \begin{thebibliography}{1}
 
 \bibitem{thumbsup}
-	Bo Pang, Lillian Lee, Shivakumar Vaithyanathan,
+	B. Pang, L. Lee, S. Vaithyanathan,
  	Thumbs Up?: Sentiment Classification Using Machine Learning Techniques,
  	Proceedings of the ACL-02 Conference on Empirical Methods in Natural Language Processing - Volume 10,
  	Association for Computational Linguistics,
 	Stroudsburg, PA, USA,
 	2002.
 	
+\bibitem{uupp}
+	M. Božić, I. Gavran,
+	Analiza stava\\
+	\url{http://stav.math.hr/static/data/uupp.pdf}
+	
 \bibitem{nltk}
 	S. Bird, E. Klein, E. Loper,
 	Natural Language Processing with Python,
 	O'Reilly Media,
 	2009.
+	
+\bibitem{tfidftutorial}
+	S. Loria,
+	Tutorial: Finding Important Words in Text Using TF-IDF\\
+	\url{http://stevenloria.com/finding-important-words-in-a-document-using-tf-idf/}
 
 \bibitem{dataset}
-	Bo Pang and Lillian Lee,
+	B. Pang, L. Lee,
 	Movie Review Data\\
 	\url{https://www.cs.cornell.edu/people/pabo/movie-review-data/}
 	

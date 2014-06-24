@@ -93,7 +93,7 @@ class NaiveBayes:
     def train_and_test(self, k = 0):
         print "Training and testing..."
         if k < 3:
-            train_set, test_set = self.featuresets[:1400], self.featuresets[1400:] # 70% train set, 30% test set
+            train_set, self.test_set = self.featuresets[:1400], self.featuresets[1400:] # 70% train set, 30% test set
             self.classifier = nltk.NaiveBayesClassifier.train(train_set)
             self.accuracy = nltk.classify.accuracy(self.classifier, test_set)
 
@@ -107,9 +107,25 @@ class NaiveBayes:
                 train_set = [features for features in self.featuresets if features not in test_set]
                 classifier = nltk.NaiveBayesClassifier.train(train_set)
                 accuracy = nltk.classify.accuracy(classifier, test_set)
-                classifiers.append((accuracy, classifier))
+                classifiers.append((accuracy, classifier, test_set))
 
-            (self.accuracy, self.classifier) = max(classifiers)
+            (self.accuracy, self.classifier, self.test_set) = max(classifiers)
+
+    def confusion_matrix(self):
+        tp, tn, fp, fn = 0, 0, 0, 0
+
+        for (document, polarity) in self.test_set:
+            if polarity == self.classifier.classify(self.sentiment_features(document)):
+                if polarity == "positive":
+                    tp = tp + 1
+                if polarity == "negative":
+                    tn = tn + 1
+            else:
+                if polarity == "negative":
+                    fp = fp + 1
+                if polarity == "positive":
+                    fn = fn + 1
+        return (tp, tn, fp, fn)
             
     def save_most_informative_features(self, number = 100):
         most_informative_features = [word for (word, polarity) in self.classifier.most_informative_features(number)]
