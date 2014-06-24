@@ -7,6 +7,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{listings}
+\usepackage{caption}
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
@@ -66,19 +67,34 @@ Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili nega
 
 \subsection{NLTK}
 
+NLTK (\textit{Natural Language Toolkit}) je niz biblioteka i programa za simboličko i statističko obrađivanje podataka pomoću programskog jezika Pythona. NLTK uključuje grafičko prikazane ogledne primjerke te je popraćen opsežnom dokumentacijom i uključuje knjigu \cite{nltk} objašnjenja fundamentalnih načela zadataka podržanih od strane ovog alata.
+
+NLTK je pretežito namjenjen učenju o računalnoj obradi prirodnog jezika ili pak za istraživanja u obradi prirodnog jezika i sličnih bliskih struka poput empirijske lingvistike, kognitivnih znanosti, umjetne inteligencije, vađenju informacija (iz dokumenata) i strojnom učenju. Mi smo ovaj alat iskoristili za pretvaranje tekstova kritika u liste riječi (tokenizacija) te za klasifikaciju pomoću Naive Bayes klasifikatora.
+
+\subsection{scikit-learn}
+
 \section{Odabir značajki}
 
 Značajke (\textit{features}) su karakteristike teksta pomoću kojih metoda nastoji dobiti sliku o tome koji stav dominira u tekstu. Odabir značajki vrlo je važan proces jer bitno utječe na brzinu i kvalitetu klasifikacije. Potrebno je odabrati one značajke koje će nam na neki način dati najviše informacije o stavu teksta pazeći pritom da ih ne odaberemo niti previše, a niti premalo. Odaberemo li previše značajki, učenje klasifikatora može trajati jako dugo, a postoji i opasnost od pretreniranja (overfitting). S druge strane, premali broj značajki sigurno neće dati zadovoljavajuću klasifikaciju na novim primjerima, a mogući je čak i underfitting.
 
 Kao značajke ćemo koristiti prvenstveno riječi iz liste odabranih sentiment riječi \cite{words} koje su se pokazale kao dobar indikator stava u filmskim kritikama. Ovaj skup sadrži oko 6800 riječi. Samo ovakvim jednostavnim pristupom uspjeli smo postići zadovoljavajuću točnost (oko $80\%$ za Naive Bayes). No, učenje klasifikatora je relativno sporo zbog prevelikog broja značajki. Ipak, zbog dobrog rezultata klasifikacije, daljnji odabir značajki ćemo raditi na temelju ove liste riječi.
 
+\subsection{Najveća frekvencija}
+
+Jedna od najjednostavnijih metoda odabira značajki je promatranje frekvencije potencijalne značajke u skupu za učenje. Za svaku riječ ćemo izračunati njenu apsolutnu frekvenciju (ukupan broj pojavljivanja) u svim kritikama iz korištenog skupa za učenje. Riječi ćemo zatim sortirati silazno po frekvenciji te prvih 1000 koristiti kao značajke u metodama klasifikacije.
+
 \subsection{TF-IDF}
+
+TF-IDF (\textit{Term Frequency, Inverse Document Frequency}) je način vrednovanja važnosti neke riječi u dokumentu temeljen na tome koliko se često ta riječ pojavljuje u danom skupu dokumenata. Ako se riječ pojavljuje često u dokumentu, ona je važna te ćemo joj dodijeliti visoki rezultat. No, ako se riječ pojavljuje u velikom broju dokumenata, ona vjerojatno neće biti dobar indikator stava pa ćemo joj dodijeliti mali rezultat. Za svaku riječ ćemo proći po svim kritikama i izračunati pripadni TF-IDF te spremiti 1000 riječi s najvećom sumom svih vrijednosti. Spremljene riječi koristit ćemo kao značajke kod klasifikacije.
 
 \subsection{Najinformativnije značajke Naive Bayes klasifikatora}
 
 Ova metoda odabira značajki koristi Naive Bayes klasifikator implementiran u alatu NLTK. Najprije smo naučili klasifikator na svim riječima iz prethodno spomenute liste te zatim spremili 500 riječi koje je klasifikator ocijenio kao najinformativnije (most\_infotmative\_features). Nakon što smo pokrenuli novi Naive Bayes klasifikator koji kao značajke koristi samo ovih 500 riječi primijetili smo poboljšanje i u brzini učenja, ali i u točnosti (oko $85\%$).
 
-\begin{lstlisting}[language = Python, frame = single, basicstyle=\tiny\ttfamily]
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\begin{lstlisting}[language = Python, frame = single, basicstyle=\tiny\ttfamily, xleftmargin = 5pt, xrightmargin = 5pt]
 >>> classifier.show_most_informative_features(10)
 Most Informative Features
                insulting = True           negati : positi =     16.9 : 1.0
@@ -92,6 +108,9 @@ Most Informative Features
                   hatred = True           positi : negati =     10.4 : 1.0
         incomprehensible = True           negati : positi =      8.9 : 1.0
 \end{lstlisting}
+\caption{Najinformativnije značajke i njihov ``likelihood ratio"}
+\end{minipage}
+\end{figure}
 
 \section{Metode strojnog učenja}
 
@@ -120,6 +139,11 @@ Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona o
 
 \section{Evaluacija}
 
+Matrica konfuzije...
+
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
 \begin{tabular}{|c|c|c|c|}
   \hline
   \multicolumn{2}{|c|}{Matrica}  & \multicolumn{2}{|c|}{Stvarna klasa} \\ 
@@ -131,6 +155,9 @@ Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona o
   modelom & negativno & 31 & 167 \\
   \hline
 \end{tabular}
+\caption{Matrica konfuzije za Naive Bayes metodu uz odabir značajki pomoću najinformativnijih značajki (točnost $85.5\%$)}
+\end{minipage}
+\end{figure}
 
 \subsection{Train and test}
 
