@@ -23,24 +23,37 @@ def tfidf(word, document, document_list):
     return tf(word, document) * idf(word, document_list)
 
 class Classifier:
-    def __init__(self, selected = False):
+    def __init__(self, selected = "all"):
         print "Loading data..."
 
         # getting words (features)
         self.words = []
-        self.C=0
-        self.gamma=0
-        self.degree=0
-        self.tol=0
-        if selected:
-            f = open('data/words/selected.txt', 'r')
+
+        if selected == "frequency":
+            f = open('data/words/selected-frequency.txt', 'r')
             for line in f:
                 for word in line.split():
                     self.words.append(word)
 
             f.close()
 
-        else:
+        if selected == "tfidf":
+            f = open('data/words/selected-tfidf.txt', 'r')
+            for line in f:
+                for word in line.split():
+                    self.words.append(word)
+
+            f.close()
+
+        if selected == "most_informative":
+            f = open('data/words/selected-most-informative.txt', 'r')
+            for line in f:
+                for word in line.split():
+                    self.words.append(word)
+
+            f.close()
+
+        if selected == "all":
             f = open('data/words/positive.txt', 'r')
             for line in f:
                 for word in line.split():
