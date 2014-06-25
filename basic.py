@@ -1,13 +1,13 @@
 from lib.naive_bayes import NaiveBayes
-#from lib.svm import SVM
+from lib.svm import SVM
 
 word_list = "all" # all, frequency, tfidf or most_informative
 
 classifiers = [
     NaiveBayes(selected = word_list),
-##    SVM.Proba(selected = word_list),
-##    SVM.Linear(selected = word_list),
-##    SVM.Polynomial(selected = word_list),
+    SVM.Proba(selected = word_list),
+    SVM.Linear(selected = word_list),
+    SVM.Polynomial(selected = word_list),
 ]
 
 for classifier in classifiers:
@@ -28,4 +28,4 @@ for classifier in classifiers:
 
     # print "tp = %d, tn = %d, fp = %d, fn = %d" % classifier.confusion_matrix()
 
-    print "%.2f (average accuracy)" % (classifier.average_accuracy)
+    # print "%.2f (average accuracy)" % (classifier.average_accuracy)
