@@ -16,8 +16,7 @@ for classifier in classifiers:
     classifier.train_and_test(5)
     # classifier.show_most_informative_features(10)
 
-    print "%.2f (average accuracy)" % (classifier.average_accuracy)
-    print "%.2f (best accuracy)" % (classifier.accuracy)
+    print "%.2f (accuracy)" % (classifier.accuracy)
 
     document1 = ['a', ',wickedly', 'entertaining', 'sometimes', 'thrilling', 'adventure']
     print "Classification: A wickedly entertaining, sometimes thrilling adventure."

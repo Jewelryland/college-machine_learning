@@ -8,7 +8,7 @@ class NaiveBayes(Classifier):
         if k < 3:
             train_set, self.test_set = self.featuresets[:1400], self.featuresets[1400:] # 70% train set, 30% test set
             self.classifier = nltk.NaiveBayesClassifier.train(train_set)
-            self.accuracy = nltk.classify.accuracy(self.classifier, test_set)
+            self.accuracy = nltk.classify.accuracy(self.classifier, self.test_set)
 
         # k-fold cross validation
         else:
@@ -23,5 +23,3 @@ class NaiveBayes(Classifier):
                 classifiers.append((accuracy, classifier, test_set))
 
             (self.accuracy, self.classifier, self.test_set) = max(classifiers)
-
-            self.average_accuracy = sum([accuracy for (accuracy, classifier, test_set) in classifiers]) / k
