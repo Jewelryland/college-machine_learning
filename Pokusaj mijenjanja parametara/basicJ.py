@@ -1,7 +1,7 @@
 from naive_bayes import NaiveBayes
 from svmM import SVM
 
-word_list = "all" # all, frequency, tfidf or most_informative
+word_list = "most_informative" # all, frequency, tfidf or most_informative
 
 classifiers = [
     NaiveBayes(selected = word_list),
