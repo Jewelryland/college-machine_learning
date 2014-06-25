@@ -85,7 +85,7 @@ Kod analize kritika služit ćemo se jednostavnom metodom "bag of words" koja se
 
 \subsection{Najveća frekvencija}
 
-Jedna od najjednostavnijih metoda odabira značajki je promatranje frekvencije potencijalne značajke u skupu za učenje. Za svaku riječ ćemo izračunati njenu apsolutnu frekvenciju (ukupan broj pojavljivanja) u svim kritikama iz korištenog skupa za učenje. Riječi ćemo zatim sortirati silazno po frekvenciji te prvih 1000 koristiti kao značajke u metodama klasifikacije. Iako je vrlo jednostavna, ova metoda je dala iznenađujuće dobre rezultate (oko $82\%$ točnosti za Naive Bayes).
+Jedna od najjednostavnijih metoda odabira značajki je promatranje frekvencije potencijalne značajke u skupu za učenje. Za svaku riječ ćemo izračunati njenu apsolutnu frekvenciju (ukupan broj pojavljivanja) u svim kritikama iz korištenog skupa za učenje. Riječi ćemo zatim sortirati silazno po frekvenciji te prvih 1000 koristiti kao značajke u metodama klasifikacije. Iako je vrlo jednostavna, ova metoda je dala iznenađujuće dobre rezultate (oko $80\%$ točnosti za Naive Bayes).
 
 \subsection{TF-IDF}
 
@@ -175,7 +175,7 @@ poglavlju):
 
 \begin{itemize}
   \item{\textbf{C}:} Dopuštena greška
-  \item{\textbf{kernel}:} Može biti "linear", "poly", "rbf" i "sigmoid".
+  \item{\textbf{kernel}:} Može biti ``linear", ``poly", ``rbf" i ``sigmoid".
   \item{\textbf{degree}:} Kada koristimo polinomijalni kernel, onda ova opcija
     specificira stupanj polinoma
   \item{\textbf{gamma}:} Koeficijent kernela
@@ -208,9 +208,24 @@ Matrica konfuzije...
 \end{minipage}
 \end{figure}
 
-Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime,
-ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.}, pa smo
-radi jednostavnosti uzeli tu metodu i za Naivnog Bayesa.
+Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime, ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.} pa smo je radi jednostavnosti uzeli i za Naive Bayes metodu.
+
+Sljedeći graf prikazuje rezultate testiranja Naive Bayes metode za različite metode odabira značajki.
+
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/bayes.jpg}
+\caption{Rezultati Naive Bayes metode}
+\end{minipage}
+\end{figure}
+
+\begin{enumerate}
+	\item Lista sentiment riječi (oko 6800 riječi)
+	\item Riječi s najvećom frekvencijom (1000 riječi)
+	\item Riječi s najvećom maksimalnom TF-IDF vrijednošću (1000 riječi)
+	\item Najinformativnije značajke Naive Bayes klasifikatora (500 riječi)
+\end{enumerate}
 
 \section{Rezultati}
 

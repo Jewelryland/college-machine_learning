@@ -1,19 +1,19 @@
 from lib.naive_bayes import NaiveBayes
-from lib.svm import SVM
+#from lib.svm import SVM
 
-word_list = "most_informative" # all, frequency, tfidf or most_informative
+word_list = "all" # all, frequency, tfidf or most_informative
 
 classifiers = [
     NaiveBayes(selected = word_list),
-    SVM.Proba(selected = word_list),
-    SVM.Linear(selected = word_list),
-    SVM.Polynomial(selected = word_list),
+##    SVM.Proba(selected = word_list),
+##    SVM.Linear(selected = word_list),
+##    SVM.Polynomial(selected = word_list),
 ]
 
 for classifier in classifiers:
 
     classifier.get_featuresets()
-    classifier.train_and_test()
+    classifier.train_and_test(5)
     # classifier.show_most_informative_features(10)
 
     print "%.2f (accuracy)" % (classifier.accuracy)
@@ -28,4 +28,4 @@ for classifier in classifiers:
 
     # print "tp = %d, tn = %d, fp = %d, fn = %d" % classifier.confusion_matrix()
 
-    # print "%.2f (average accuracy)" % (classifier.average_accuracy)
+    print "%.2f (average accuracy)" % (classifier.average_accuracy)
