@@ -85,11 +85,11 @@ Kod analize kritika služit ćemo se jednostavnom metodom "bag of words" koja se
 
 \subsection{Najveća frekvencija}
 
-Jedna od najjednostavnijih metoda odabira značajki je promatranje frekvencije potencijalne značajke u skupu za učenje. Za svaku riječ ćemo izračunati njenu apsolutnu frekvenciju (ukupan broj pojavljivanja) u svim kritikama iz korištenog skupa za učenje. Riječi ćemo zatim sortirati silazno po frekvenciji te prvih 1000 koristiti kao značajke u metodama klasifikacije. Iako je vrlo jednostavna, ova metoda je dala iznenađujuće dobre rezultate (oko $82\%$ za Naive Bayes).
+Jedna od najjednostavnijih metoda odabira značajki je promatranje frekvencije potencijalne značajke u skupu za učenje. Za svaku riječ ćemo izračunati njenu apsolutnu frekvenciju (ukupan broj pojavljivanja) u svim kritikama iz korištenog skupa za učenje. Riječi ćemo zatim sortirati silazno po frekvenciji te prvih 1000 koristiti kao značajke u metodama klasifikacije. Iako je vrlo jednostavna, ova metoda je dala iznenađujuće dobre rezultate (oko $82\%$ točnosti za Naive Bayes).
 
 \subsection{TF-IDF}
 
-TF-IDF (\textit{Term Frequency, Inverse Document Frequency}) je način vrednovanja važnosti neke riječi u dokumentu temeljen na tome koliko se često ta riječ pojavljuje u danom skupu dokumenata. Ako se riječ pojavljuje često u dokumentu, ona je važna te ćemo joj dodijeliti visoki rezultat. No, ako se riječ pojavljuje u velikom broju dokumenata, ona vjerojatno neće biti dobar indikator stava pa ćemo joj dodijeliti mali rezultat. Za svaku riječ proći ćemo po svim kritikama i izračunati pripadni TF-IDF te zapamtiti maksimalnu vrijednost. Spremit ćemo 1000 riječi s najvećom maksimalnom TF-IDF vrijedošću te ih kasnije koristiti kao značajke kod klasifikacije.
+TF-IDF (\textit{Term Frequency, Inverse Document Frequency}) je način vrednovanja važnosti neke riječi u dokumentu temeljen na tome koliko se često ta riječ pojavljuje u danom skupu dokumenata. Ako se riječ pojavljuje često u dokumentu, ona je važna te ćemo joj dodijeliti visoki rezultat. No, ako se riječ pojavljuje u velikom broju dokumenata, ona vjerojatno neće biti dobar indikator stava pa ćemo joj dodijeliti mali rezultat. Za svaku riječ proći ćemo po svim kritikama i izračunati pripadni TF-IDF te zapamtiti maksimalnu vrijednost. Spremit ćemo 1000 riječi s najvećom maksimalnom TF-IDF vrijedošću te ih kasnije koristiti kao značajke kod klasifikacije. Ova metoda se nije pokazala dobrom jer je smanjila točnost modela (na oko $70\%$ za Naive Bayes).
 
 \subsection{Najinformativnije značajke Naive Bayes klasifikatora}
 

@@ -1,11 +1,13 @@
 from lib.naive_bayes import NaiveBayes
 from lib.svm import SVM
 
+word_list = "all" # all, frequency, tfidf or most_informative
+
 classifiers = [
-    NaiveBayes(selected = True),
-    SVM.Proba(selected = True),
-    SVM.Linear(selected = True),
-    SVM.Polynomial(selected = True),
+    NaiveBayes(selected = word_list),
+    SVM.Proba(selected = word_list),
+    SVM.Linear(selected = word_list),
+    SVM.Polynomial(selected = word_list),
 ]
 
 for classifier in classifiers:
