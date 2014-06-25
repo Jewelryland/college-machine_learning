@@ -25,6 +25,14 @@ for classifier in classifiers:
     print "Classification: Providing a riot of action, big and visually opulent but oddly lumbering and dull."
     print classifier.classify(classifier.sentiment_features(document2, classifier.words))
 
-    print "tp = %d, tn = %d, fp = %d, fn = %d" % classifier.confusion_matrix()
+    tp, tn, fp, fn = classifier.confusion_matrix()
+    print "tp = %d, tn = %d, fp = %d, fn = %d" % (tp, tn, fp, fn)
+
+    precision = float(tp) / (tp + fp)
+    recall    = float(tp) / (tp + fn)
+
+    print "Precision: %g" % precision
+    print "Recall:    %g" % recall
+    print "F1 score:  %g" % (2 * (precision * recall / (precision + recall)))
 
     # print "%.2f (average accuracy)" % (classifier.average_accuracy)
