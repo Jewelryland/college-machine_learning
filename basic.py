@@ -13,7 +13,7 @@ classifiers = [
 for classifier in classifiers:
 
     classifier.get_featuresets()
-    classifier.train_and_test(5)
+    classifier.train_and_test()
     # classifier.show_most_informative_features(10)
 
     print "%.2f (accuracy)" % (classifier.accuracy)
@@ -27,3 +27,5 @@ for classifier in classifiers:
     print classifier.classify(classifier.sentiment_features(document2, classifier.words))
 
     # print "tp = %d, tn = %d, fp = %d, fn = %d" % classifier.confusion_matrix()
+
+    # print "%.2f (average accuracy)" % (classifier.average_accuracy)
