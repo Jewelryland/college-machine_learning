@@ -141,6 +141,51 @@ Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona o
 
 \subsection{SVM}
 
+Metoda potpornih vektora (SVM) je skup metoda za nadzirano učenje korišten za
+klasifikaciju, regresiju i detekciju \textit{outlier}-a.
+
+Prednosti metode potpornih vektora su nad Naivnim Bayesom su:
+
+\begin{itemize}
+  \item efikasan kod više featurea
+  \item koristi samo podskup skupa za treniranje (tzv. potporni vektori), pa je
+    memorijski efikasan
+  \item prilagodljiv: možemo koristiti više \textit{kernela} za funkciju izbora
+\end{itemize}
+
+Mane metode potpornih vektora su:
+
+\begin{itemize}
+  \item ako je broj značajki puno veći od broja uzoraka, onda će metoda vjerojatno
+    neće davati dobre rezultate
+  \item potproni vektori ne daju direktno vjerojatnosne procjene, one se računaju
+    (skupom) 5-strukom unakrsnom validacijom
+\end{itemize}
+
+Postoje dvije poznate vrste kernela koje se koriste: Linearni, polinomijalni i
+RBF\footnote{eng. \textit{Radial basis function}, funkcija koja ovisi samo o
+udaljenosti od neke točke, tzv. \textit{radijalna} funkcija}. Od ova 3 kernela,
+Linearni i polinomijalni su nam dobro funkcionirali, ali RBF je imao previše
+malu preciznost (50\%), pa ga nećemo navoditi u rezultatima.
+
+SVM ima veliki broj parametara kojima možemo specificirati točno kako želimo
+da naš algoritam radi. Mi smo koristili sljedeće parametre (i
+neke varirali, te ćemo navesti one koje daju najbolji rezultat u zadnjem
+poglavlju):
+
+\begin{itemize}
+  \item{\textbf{C}:} Dopuštena greška
+  \item{\textbf{kernel}:} Može biti "linear", "poly", "rbf" i "sigmoid".
+  \item{\textbf{degree}:} Kada koristimo polinomijalni kernel, onda ova opcija
+    specificira stupanj polinoma
+  \item{\textbf{gamma}:} Koeficijent kernela
+  \item{\textbf{cache\_size}:} Specificira veličinu cache-a kernela, može biti
+    veći ako imamo više RAMA
+  \item{\textbf{max\_iter}:} Maksimalni broj iteracija (ili -1 za neograničenost)
+  \item{\textbf{tol}:} Tolerancija konvergiranja, u kojem trenutku će algoritam
+    stati
+\end{itemize}
+
 \section{Evaluacija}
 
 Matrica konfuzije...
@@ -162,10 +207,6 @@ Matrica konfuzije...
 \caption{Matrica konfuzije za Naive Bayes metodu uz odabir značajki pomoću najinformativnijih značajki (točnost $85.5\%$)}
 \end{minipage}
 \end{figure}
-
-\subsection{Train and test}
-
-\subsection{k-fold cross validation}
 
 \section{Rezultati}
 
@@ -214,6 +255,11 @@ Matrica konfuzije...
 	Analiza stava u filmskim kritikama,
 	GitHub repozitorij\\
 	\url{https://github.com/janko-m/college-machine_learning}
+
+\bibitem{scikit}
+    Scikit-learn developeri,
+    Support Vector Machines\\
+    \url{http://scikit-learn.org/stable/modules/svm.html}
 
 \end{thebibliography}
 
