@@ -23,3 +23,5 @@ class NaiveBayes(Classifier):
                 classifiers.append((accuracy, classifier, test_set))
 
             (self.accuracy, self.classifier, self.test_set) = max(classifiers)
+
+            self.average_accuracy = sum([accuracy for (accuracy, classifier, test_set) in classifiers]) / k

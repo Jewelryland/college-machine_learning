@@ -1,7 +1,7 @@
 from lib.naive_bayes import NaiveBayes
 from lib.svm import SVM
 
-word_list = "all" # all, frequency, tfidf or most_informative
+word_list = "most_informative" # all, frequency, tfidf or most_informative
 
 classifiers = [
     NaiveBayes(selected = word_list),
@@ -16,7 +16,8 @@ for classifier in classifiers:
     classifier.train_and_test(5)
     # classifier.show_most_informative_features(10)
 
-    print "%.2f (accuracy)" % (classifier.accuracy)
+    print "%.2f (average accuracy)" % (classifier.average_accuracy)
+    print "%.2f (best accuracy)" % (classifier.accuracy)
 
     document1 = ['a', ',wickedly', 'entertaining', 'sometimes', 'thrilling', 'adventure']
     print "Classification: A wickedly entertaining, sometimes thrilling adventure."
@@ -26,4 +27,4 @@ for classifier in classifiers:
     print "Classification: Providing a riot of action, big and visually opulent but oddly lumbering and dull."
     print classifier.classify(classifier.sentiment_features(document2, classifier.words))
 
-    print "tp = %d, tn = %d, fp = %d, fn = %d" % classifier.confusion_matrix()
+    # print "tp = %d, tn = %d, fp = %d, fn = %d" % classifier.confusion_matrix()
