@@ -58,16 +58,16 @@ def main():
 
     word_list_frequency = []
     word_list_tfidf = []
-    for word in words[:10]:
+    for word in words:
         frequency = n_containing(word, reviews)
-        tfidf_sum = 0
+        max_tfidf = 0
         if frequency:
-            for document in reviews[:10]:
+            for document in reviews:
                 if word in document:
-                    tfidf_sum = tfidf_sum + tfidf(word, document, reviews)
+                    max_tfidf = max(max_tfidf, tfidf(word, document, reviews))
                 
         word_list_frequency.append((frequency, word))
-        word_list_tfidf.append((tfidf_sum, word))
+        word_list_tfidf.append((max_tfidf, word))
 
     print word_list_frequency[:10]
     print word_list_tfidf[:10]
@@ -78,17 +78,26 @@ def main():
     print word_list_frequency[:10]
     print word_list_tfidf[:10]
 
-    f = open('../words/selected-words-frequency.txt', 'w')
-    for (frequency, word) in word_list_frequency[:10]:
+##    f = open('../words/selected-words-frequency.txt', 'w')
+##    for (frequency, word) in word_list_frequency[:1000]:
+##        f.write("%s\n" % word)
+##            
+##    f.close()
+
+    f = open('../words/selected-words-tfidf.txt', 'w')
+    for (tfidf_sum, word) in word_list_tfidf[:1000]:
         f.write("%s\n" % word)
             
     f.close()
 
-    f = open('../words/selected-words-tfidf.txt', 'w')
-    for (tfidf_sum, word) in word_list_tfidf[:10]:
-        f.write("%s\n" % word)
-            
-    f.close()
+    print "50 - 100..."
+    print word_list_tfidf[50:100]
+    print "200 - 300..."
+    print word_list_tfidf[200:300]
+    print "400 - 500..."
+    print word_list_tfidf[400:500]
+    print "900 - 1000..."
+    print word_list_tfidf[900:1000]
 
 if __name__ == "__main__":
     main()
