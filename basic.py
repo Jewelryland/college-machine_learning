@@ -5,7 +5,7 @@ word_list = "all" # all, frequency, tfidf or most_informative
 
 classifiers = [
     NaiveBayes(selected = word_list),
-    SVM.Proba(selected = word_list),
+    #SVM.Proba(selected = word_list),
     SVM.Linear(selected = word_list),
     SVM.Polynomial(selected = word_list),
 ]

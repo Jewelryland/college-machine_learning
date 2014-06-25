@@ -1,12 +1,15 @@
 from naive_bayes import NaiveBayes
 from svm import SVM
 
+word_list = "all" # all, frequency, tfidf or most_informative
+
 classifiers = [
-    #NaiveBayes(selected = True),
-    SVM.Proba(selected = True),
-    #SVM.Linear(selected = True),
-    #SVM.Polynomial(selected = True),
+    #NaiveBayes(selected = word_list),
+    #SVM.Proba(selected = word_list),
+    #SVM.Linear(selected = word_list),
+    SVM.Polynomial(selected = word_list),
 ]
+
 
 for classifier in classifiers:
 
@@ -24,5 +27,5 @@ for classifier in classifiers:
     print "Classification: Providing a riot of action, big and visually opulent but oddly lumbering and dull."
     print classifier.classify(classifier.sentiment_features(document2, classifier.words))
 	
-    print "C=" + str(classifier.C) + "    Gamma=" + str(classifier.gamma) + "   degree: " + str(classifier.degree) + "   tol" + str(classifier.tol)
+   # print "C=" + str(classifier.C) + "    Gamma=" + str(classifier.gamma) + "   degree: " + str(classifier.degree) + "   tol" + str(classifier.tol)
     print "tp = %d, tn = %d, fp = %d, fn = %d" % classifier.confusion_matrix()
