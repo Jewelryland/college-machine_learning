@@ -189,7 +189,9 @@ poglavlju):
 
 \section{Evaluacija}
 
-Matrica konfuzije...
+Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime, ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.} pa smo je radi jednostavnosti uzeli i za Naive Bayes metodu.
+
+Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili najinformativnije značajke Naive Bayes klasifikatora (koji je korišten samo u shvru odabira značajki, na njemu nismo testirali). 
 
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
@@ -209,9 +211,9 @@ Matrica konfuzije...
 \end{minipage}
 \end{figure}
 
-Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime, ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.} pa smo je radi jednostavnosti uzeli i za Naive Bayes metodu.\\
+Najbolje rezultate za SVM  i općenito smo, testirajući, dobili za linearni kernel uz $C=0.02$ te polinomijalni kernel uz $c=0.02$ i stupanj polinoma $d=1$. Zapravo ispada da je odabrani polinomijalni kernel linearan - iz čega možemo zaključiti da su naši podaci "približno" linearno separabilni. Testirajući, postigli smo točnost za linearni SVM uz navedene parametre od $0.89$, premda ona varira ovisno o odabiru značajki. Vrijednosti parametara koje smo dobili u $k$-fold  Cross Validation (CV u nastavku) se mogu vidjeti u tekstualnim datotekama \textit{Linear SVM.txt} i \textit{Polynomial SVM.txt}. Format pisanja u \textit{Polynomial SVM.txt} je u obliku $(c,g)=a$, gdje je $c$ parametar $C$, $g$ parametar $\gamma$, a $a$ prosječna preciznost $k$-fold CV-a dobivena za te parametre. 
 
-Najbolje rezultate smo, testirajući, dobili za linearni kernel uz $C=0.02$ te polinomijalni kernel uz $c=0.02$ i stupanj polinoma $d=1$. Zapravo ispada da je odabrani polinomijalni kernle linearan - iz čega možemo zaključiti da su naši podaci "približno" linearno separabilni. Testirajući, postigli smo točnost za linearni SVM uz navedene parametre od $0.89$, premda ona varira ovisno o odabiru značajki. Vrijednosti parametara koje smo dobili u $k$-fold  Cross Validation (CV u nastavku) se mogu vidjeti u tekstualnim datotekama \textit{Linear SVM.txt} i \textit{Polynomial SVM.txt}. Format pisanja u \textit{Polynomial SVM.txt} je u obliku $(c,g)=a$, gdje je $c$ parametar $C$, $g$ parametar $\gamma$, a $a$ prosječna preciznost $k$-fold CV-a dobivena za te parametre. U nastavku je navedena matrica konfuzije za linearni SVM:
+U nastavku je navedena matrica konfuzije za linearni SVM:
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
 \centering
@@ -223,7 +225,7 @@ Najbolje rezultate smo, testirajući, dobili za linearni kernel uz $C=0.02$ te p
   \hline
   Predviđeno & pozitivno & 276 & 83 \\
   \cline{2-4}
-  modelom & negativno & 209 & 32 \\
+  modelom & negativno & 32 & 209 \\
   \hline
 \end{tabular}
 \caption{Matrica konfuzije za Metodu potpornih vektora (točnost $81\%$) uz odabir značajki koje su najinformativnije}
