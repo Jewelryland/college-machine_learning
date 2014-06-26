@@ -1,15 +1,21 @@
 from lib.naive_bayes import NaiveBayes
 from lib.svm import SVM
 
-word_list = "all" # all, frequency, tfidf or most_informative
+word_list = "most_informative" # all, frequency, tfidf or most_informative
 
 classifiers = [
-    NaiveBayes(selected = word_list),
-    SVM.Linear(selected = word_list),
-    SVM.Polynomial(selected = word_list),
+    (NaiveBayes(word_list),     "Naive Bayes"),
+    (SVM.Linear(word_list),     "SVM (linear)"),
+    (SVM.Polynomial(word_list), "SVM (polynomial)"),
 ]
 
-for classifier in classifiers:
+print
+
+for (classifier, name) in classifiers:
+
+    print "============================"
+    print name
+    print "============================"
 
     classifier.get_featuresets()
     classifier.train_and_test(5)
@@ -36,3 +42,5 @@ for classifier in classifiers:
     print "F1 score:  %g" % (2 * (precision * recall / (precision + recall)))
 
     # print "%.2f (average accuracy)" % (classifier.average_accuracy)
+
+    print
