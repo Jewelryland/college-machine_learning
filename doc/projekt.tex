@@ -226,18 +226,18 @@ Najbolje rezultate smo, testirajući, dobili za linearni kernel uz $C=0.02$ te p
   modelom & negativno & 209 & 32 \\
   \hline
 \end{tabular}
-\caption{Matrica konfuzije za Metodu potpornih vektora(točnost $81\%$) uz odabir značajki koje su najinformativnije}
+\caption{Matrica konfuzije za Metodu potpornih vektora (točnost $81\%$) uz odabir značajki koje su najinformativnije}
 \end{minipage}
 \end{figure}
 
 
-Sljedeći graf prikazuje rezultate testiranja Naive Bayes metode za različite metode odabira značajki.
+Sljedeći graf prikazuje rezultate testiranja Naive Bayes i SVM metode za različite metode odabira značajki.
 
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
 \centering
-\includegraphics[width=\textwidth]{images/bayes.jpg}
-\caption{Rezultati Naive Bayes metode}
+\includegraphics[width=\textwidth]{images/comparison.png}
+\caption{Preciznost Naive Bayes (plavo) \& SVM (crveno)}
 \end{minipage}
 \end{figure}
 
@@ -247,16 +247,6 @@ Sljedeći graf prikazuje rezultate testiranja Naive Bayes metode za različite m
 	\item Riječi s najvećom maksimalnom TF-IDF vrijednošću (1000 riječi)
 	\item Najinformativnije značajke Naive Bayes klasifikatora (500 riječi)
 \end{enumerate}
-
-
-
-Ovisno o tome koje smo značajke uzimali, dobili smo sljedeće rezultate za linearni SVM:
-\begin{itemize}
-\item Za najfrekventnije značajke $85\%$
-\item Za najinformativnije značajke $84\%$
-\item Tf-idf - $70\%$
-\item Lista sentiment riječi $82\%$
-\end{itemize}
 
 Mjerili smo i \textit{precision}, \textit{recall} i \textit{$F_1$ score}:
 
@@ -270,7 +260,14 @@ Mjerili smo i \textit{precision}, \textit{recall} i \textit{$F_1$ score}:
 super, a \textit{$F_1$ score} je ispadao u prosjeku oko 0.83.
 
 \section{Rezultati}
-Možemo reći da nismo dobili očekivane rezultate. Očekivali smo da će metoda potpornih vektora bolje klasificirati od Naive-Bayes metode. Kod odabira značajki $tf-idf$ se pokazuje kao najgori. Pretpostavljamo da je to zbog toga što se one riječi koje su česte u svim dokumentima smatraju kao "zajedničke" i njihova "težina" (uloga) postaje manja. Tako na primjer ako se riječ $good$ pojavljuje u gotovo svim dokumentima $tf-idf$ će mu pridružiti težinu nula ($idf=\log \frac{\text{Ukupan broj dokumenata}}{\text{broj dokuemata u kojima se riječ pojavljuje}}$) pa će se taj pojam smatrati irelevantnim. Ipak SVM (linearan) daje ovdje bolje rezultate od naivnog Bayesa, kao i u slučaju uzimanja liste sentiment riječi.
+Možemo reći da smo dobili očekivane rezultate. Očekivali smo da će metoda
+potpornih vektora bolje klasificirati od Naive-Bayes metode. Kod odabira
+značajki $tf-idf$ se pokazuje kao najgori. Pretpostavljamo da je to zbog toga
+što se one riječi koje su česte u svim dokumentima smatraju kao "zajedničke" i
+njihova "težina" (uloga) postaje manja. Tako na primjer ako se riječ $good$
+pojavljuje u gotovo svim dokumentima $tf-idf$ će mu pridružiti težinu nula
+($idf=\log \frac{\text{Ukupan broj dokumenata}}{\text{broj dokuemata u kojima
+se riječ pojavljuje}}$) pa će se taj pojam smatrati irelevantnim.
 \begin{thebibliography}{1}
 
 \bibitem{thumbsup}
