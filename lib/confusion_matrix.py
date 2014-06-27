@@ -10,10 +10,19 @@ class ConfusionMatrix:
         self.tn = matrix['negative', 'negative']
 
     def precision(self):
-        return float(self.tp) / (self.tp + self.fp)
+        try:
+            return float(self.tp) / (self.tp + self.fp)
+        except ZeroDivisionError:
+            return 0
 
     def recall(self):
-        return float(self.tp) / (self.tp + self.fn)
+        try:
+            return float(self.tp) / (self.tp + self.fn)
+        except ZeroDivisionError:
+            return 0
 
     def f1_score(self):
-        return 2 * (self.precision() * self.recall()) / (self.precision() + self.recall())
+        try:
+            return 2 * (self.precision() * self.recall()) / (self.precision() + self.recall())
+        except ZeroDivisionError:
+            return 0
