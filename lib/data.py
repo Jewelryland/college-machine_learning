@@ -33,7 +33,7 @@ class Data:
         return set(reviews)
 
     @classmethod
-    def save_most_informative_words(words):
+    def save_most_informative_words(self, words):
         f = open('data/words/selected-most-informative.txt', 'w')
         for word in words:
             f.write("%s\n" % word)

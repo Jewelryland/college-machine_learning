@@ -40,5 +40,6 @@ class NaiveBayes(Classifier):
 
 class SVM(Classifier):
     def __init__(self, **options):
+        options['tol'] = 0.0001
         svc = SVC(**options)
         self.classifier_class = SklearnClassifier(svc)
