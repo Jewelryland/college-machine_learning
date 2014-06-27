@@ -104,6 +104,7 @@ class Classifier:
     def get_featuresets(self, document_list = []):
         print "Feature extraction..."
         self.featuresets = [(self.sentiment_features(document, document_list), polarity) for (document, polarity) in self.reviews]
+        random.shuffle(self.featuresets)
 
     def train_and_test(self, k = 0):
         print "Training and testing..."
