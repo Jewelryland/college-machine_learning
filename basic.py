@@ -1,46 +1,49 @@
-from lib.naive_bayes import NaiveBayes
-from lib.svm import SVM
+from lib.classifier import NaiveBayes, SVM
+from lib.data import Data
+from lib.featuresets import Featuresets
 
-word_list = "most_informative" # all, frequency, tfidf or most_informative
+from time import time # For benchmarking
+
+print "Loading data..."
+words    = Data.load_words("most_informative")
+reviews  = Data.load_reviews()
+
+print "Feature extraction..."
+data_set = Featuresets.get(reviews, words)
+
+train_set = data_set[:3*len(data_set)/4]
+test_set  = data_set[3*len(data_set)/4:]
 
 classifiers = [
-    (NaiveBayes(word_list),     "Naive Bayes"),
-    (SVM.Linear(word_list),     "SVM (linear)"),
-    (SVM.Polynomial(word_list), "SVM (polynomial)"),
+    (NaiveBayes(),                                                 "Naive Bayes"),
+    # (SVM(kernel='rbf',    C=0.02, degree=4, gamma=0.3, tol=0.001), "SVM (RBF)"),
+    (SVM(kernel='linear', C=0.02),                                 "SVM (linear)"),
+    (SVM(kernel='poly',   C=0.02, degree=1, gamma=1),              "SVM (polynomial)"),
 ]
-
-print
 
 for (classifier, name) in classifiers:
 
+    print
     print "============================"
     print name
     print "============================"
 
-    classifier.get_featuresets()
-    classifier.train_and_test(5)
-    # classifier.show_most_informative_features(10)
+    print "Cross validating..."
+    accuracy = classifier.cross_validate(5, train_set)
 
-    print "%.2f (accuracy)" % (classifier.accuracy)
+    print "%.2f (accuracy)" % (accuracy)
 
-    document1 = ['a', ',wickedly', 'entertaining', 'sometimes', 'thrilling', 'adventure']
-    print "Classification: A wickedly entertaining, sometimes thrilling adventure."
-    print classifier.classify(classifier.sentiment_features(document1, classifier.words))
+    print "Training and testing..."
+    confusion_matrix = classifier.train_and_test(train_set, test_set)
 
-    document2 = ['providing', 'a', 'riot', 'of', 'action', 'big', 'and', 'visually', 'opulent', 'but', 'oddly', 'lumbering', 'and', 'dull']
-    print "Classification: Providing a riot of action, big and visually opulent but oddly lumbering and dull."
-    print classifier.classify(classifier.sentiment_features(document2, classifier.words))
+    example_reviews = [
+        ("A wickedly entertaining, sometimes thrilling adventure.", "positive"),
+        ("Providing a riot of action, big and visually opulent but oddly lumbering and dull.", "negative")
+    ]
+    for review in example_reviews:
+        (document, polarity) = Featuresets.get([review], words)[0]
+        print "Classification: \"%s\" => %s" % (review[0], polarity)
 
-    tp, tn, fp, fn = classifier.confusion_matrix()
-    print "tp = %d, tn = %d, fp = %d, fn = %d" % (tp, tn, fp, fn)
-
-    precision = float(tp) / (tp + fp)
-    recall    = float(tp) / (tp + fn)
-
-    print "Precision: %g" % precision
-    print "Recall:    %g" % recall
-    print "F1 score:  %g" % (2 * (precision * recall / (precision + recall)))
-
-    # print "%.2f (average accuracy)" % (classifier.average_accuracy)
-
-    print
+    print "Precision: %g" % confusion_matrix.precision()
+    print "Recall:    %g" % confusion_matrix.recall()
+    print "F1 score:  %g" % confusion_matrix.f1_score()

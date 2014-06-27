@@ -1,141 +1,44 @@
-from __future__ import division
+import nltk
+import sklearn
 
-import math
-import os
-import random
-
-from os import listdir
-from os.path import isfile, join
-
-from nltk.corpus import stopwords
-from nltk.tokenize import RegexpTokenizer
-
-def tf(word, document):
-    return document.count(word) / len(document)
-
-def n_containing(word, document_list):
-    return sum(1 for document in document_list if word in document)
-
-def idf(word, document_list):
-    return math.log(len(document_list) / (1 + n_containing(word, document_list)))
-
-def tfidf(word, document, document_list):
-    return tf(word, document) * idf(word, document_list)
+from nltk.classify.scikitlearn import SklearnClassifier
+from sklearn.svm import SVC
+from confusion_matrix import ConfusionMatrix
 
 class Classifier:
-    def __init__(self, selected = "all"):
-        print "Loading data..."
+    def cross_validate(self, k, data_set):
+        size = len(data_set) / k
+        accuracies = []
 
-        # getting words (features)
-        self.words = []
+        for i in range(k):
+            test_set = data_set[i*size:(i+1)*size]
+            train_set = [sample for sample in data_set if sample not in test_set]
 
-        if selected == "frequency":
-            f = open('data/words/selected-frequency.txt', 'r')
-            for line in f:
-                for word in line.split():
-                    self.words.append(word)
+            classifier = self.classifier_class.train(train_set)
+            accuracy = nltk.classify.accuracy(classifier, test_set)
+            accuracies.append(accuracy)
 
-            f.close()
+        return sum(accuracies) / k
 
-        if selected == "tfidf":
-            f = open('data/words/selected-tfidf.txt', 'r')
-            for line in f:
-                for word in line.split():
-                    self.words.append(word)
+    def train_and_test(self, train_set, test_set):
+        self.classifier = self.classifier_class.train(train_set)
 
-            f.close()
+        predicted_polarities = [self.classify(document) for (document, polarity) in test_set]
+        actual_polarities    = [polarity                for (document, polarity) in test_set]
 
-        if selected == "most_informative":
-            f = open('data/words/selected-most-informative.txt', 'r')
-            for line in f:
-                for word in line.split():
-                    self.words.append(word)
+        return ConfusionMatrix(predicted_polarities, actual_polarities)
 
-            f.close()
+    def classify(self, document):
+        return self.classifier.classify(document)
 
-        if selected == "all":
-            f = open('data/words/positive.txt', 'r')
-            for line in f:
-                for word in line.split():
-                    self.words.append(word)
+    def most_informative_words(self, number):
+        return [word for (word, polarity) in self.classifier.most_informative_features(number)]
 
-            f.close()
+class NaiveBayes(Classifier):
+    def __init__(self):
+        self.classifier_class = nltk.NaiveBayesClassifier
 
-            f = open('data/words/negative.txt', 'r')
-            for line in f:
-                for word in line.split():
-                    self.words.append(word)
-
-            f.close()
-
-        # getting reviews (documents)
-        self.reviews = []
-        pos_reviews = [ f for f in listdir("data/reviews/positive") if isfile(join("data/reviews/positive",f)) ]
-        neg_reviews = [ f for f in listdir("data/reviews/negative") if isfile(join("data/reviews/negative",f)) ]
-
-        tokenizer = RegexpTokenizer(r'\w+')
-        sw = stopwords.words('english')
-
-        for f in pos_reviews:
-            f = join("data/reviews/positive",f);
-            text = open(f).read()
-            tokens = [ w for w in tokenizer.tokenize(text) if w not in sw ]
-            self.reviews = (self.reviews + [(tokens, 'positive')])
-
-        for f in neg_reviews:
-            f = join("data/reviews/negative",f);
-            text = open(f).read()
-            tokens = [ w for w in tokenizer.tokenize(text) if w not in sw ]
-            self.reviews = (self.reviews + [(tokens, 'negative')])
-
-        random.shuffle(self.reviews)
-
-    def sentiment_features(self, document, document_list = []):
-        features = {}
-
-        for word in self.words:
-            if word in document: # for speed-up
-                features[word] = True
-                if document_list:
-                    features[word+'_tfidf'] = tfidf(word, document, document_list)
-
-        return features
-
-    def get_featuresets(self, document_list = []):
-        print "Feature extraction..."
-        self.featuresets = [(self.sentiment_features(document, document_list), polarity) for (document, polarity) in self.reviews]
-
-    def train_and_test(self, k = 0):
-        print "Training and testing..."
-        # Implemented in subclasses
-
-    def confusion_matrix(self):
-        tp, tn, fp, fn = 0, 0, 0, 0
-
-        for (document, polarity) in self.test_set:
-            if polarity == self.classifier.classify(self.sentiment_features(document)):
-                if polarity == "positive":
-                    tp = tp + 1
-                elif polarity == "negative":
-                    tn = tn + 1
-            else:
-                if polarity == "negative":
-                    fp = fp + 1
-                elif polarity == "positive":
-                    fn = fn + 1
-        return (tp, tn, fp, fn)
-
-    def save_most_informative_features(self, number = 100):
-        most_informative_features = [word for (word, polarity) in self.classifier.most_informative_features(number)]
-
-        f = open('data/words/selected.txt', 'w')
-        for word in most_informative_features:
-            f.write("%s\n" % word)
-
-        f.close()
-
-    def show_most_informative_features(self, number):
-        self.classifier.show_most_informative_features(number)
-
-    def classify(self, things):
-        return self.classifier.classify(things)
+class SVM(Classifier):
+    def __init__(self, **options):
+        svc = SVC(**options)
+        self.classifier_class = SklearnClassifier(svc)
