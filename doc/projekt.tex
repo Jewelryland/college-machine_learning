@@ -138,7 +138,7 @@ Osnovna pretpostavka koju koristi Naive Bayes je da su značajke međusobno neza
 
 \[P(x_1, x_2, \ldots, x_n|c) = \prod_{i=1}^n P(x_i|c).\]
 
-Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona očito pogrešna, Naive Bayes se pokazao kao jako dobra metoda za klasifikaciju teksta, pa tako i za analizu stava. U našem slučaju (analiza stava u filmskim kritikama), uz dobar odabir značajki, daje također zadovoljavajuće rezultate (u najboljem slučaju uspjeli smo postići točnost od $87.75\%$ na skupu za testiranje).
+Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona očito pogrešna, Naive Bayes se pokazao kao jako dobra metoda za klasifikaciju teksta, pa tako i za analizu stava. U našem slučaju (analiza stava u filmskim kritikama), uz dobar odabir značajki, daje također zadovoljavajuće rezultate (u najboljem slučaju uspjeli smo postići točnost od $85.6\%$ na skupu za testiranje).
 
 \subsection{SVM}
 
@@ -191,7 +191,7 @@ poglavlju):
 
 Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime, ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.} pa smo je radi jednostavnosti uzeli i za Naive Bayes metodu.
 
-Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili najinformativnije značajke Naive Bayes klasifikatora (koji je korišten samo u shvru odabira značajki, na njemu nismo testirali). 
+Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili najinformativnije značajke Naive Bayes klasifikatora (koji je korišten samo u svhru odabira značajki, na njemu nismo testirali). 
 
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
@@ -202,18 +202,21 @@ Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili naj
   \cline{3-4}
   \multicolumn{2}{|c|}{konfuzije} & pozitivno & negativno \\ 
   \hline
-  Predviđeno & pozitivno & 175 & 27 \\
+  Predviđeno & pozitivno & 224 & 34 \\
   \cline{2-4}
-  modelom & negativno & 31 & 167 \\
+  modelom & negativno & 38 & 204 \\
   \hline
 \end{tabular}
-\caption{Matrica konfuzije za Naive Bayes metodu uz odabir značajki pomoću najinformativnijih značajki (točnost $85.5\%$)}
+\caption{Matrica konfuzije za Naive Bayes metodu uz odabir značajki pomoću najinformativnijih značajki (točnost $85.6\%$)}
 \end{minipage}
 \end{figure}
 
 Najbolje rezultate za SVM  i općenito smo, testirajući, dobili za linearni kernel uz $C=0.02$ te polinomijalni kernel uz $c=0.02$ i stupanj polinoma $d=1$. Zapravo ispada da je odabrani polinomijalni kernel linearan - iz čega možemo zaključiti da su naši podaci "približno" linearno separabilni. Testirajući, postigli smo točnost za linearni SVM uz navedene parametre od $0.89$, premda ona varira ovisno o odabiru značajki. Vrijednosti parametara koje smo dobili u $k$-fold  Cross Validation (CV u nastavku) se mogu vidjeti u tekstualnim datotekama \textit{Linear SVM.txt} i \textit{Polynomial SVM.txt}. Format pisanja u \textit{Polynomial SVM.txt} je u obliku $(c,g)=a$, gdje je $c$ parametar $C$, $g$ parametar $\gamma$, a $a$ prosječna preciznost $k$-fold CV-a dobivena za te parametre. 
 
 U nastavku je navedena matrica konfuzije za linearni SVM:
+
+\newpage
+
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
 \centering
