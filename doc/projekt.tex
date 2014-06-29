@@ -101,7 +101,7 @@ TF-IDF (\textit{Term Frequency, Inverse Document Frequency}) je način vrednovan
 
 Ova metoda odabira značajki koristi Naive Bayes klasifikator implementiran u alatu NLTK. Najprije smo naučili klasifikator na svim riječima iz prethodno spomenute liste te zatim spremili 500 riječi koje je klasifikator ocijenio kao najinformativnije (most\_infotmative\_features). Nakon što smo pokrenuli novi Naive Bayes klasifikator koji kao značajke koristi samo ovih 500 riječi primijetili smo poboljšanje i u brzini učenja, ali i u točnosti (oko $85\%$).
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{minipage}{0.5\textwidth}
 \centering
 \begin{lstlisting}[language = Python, frame = single, basicstyle=\tiny\ttfamily, xleftmargin = 5pt, xrightmargin = 5pt]
@@ -204,7 +204,7 @@ Za provjeru modela i izbor parametera koristili smo k-struku unakrsnu
 validaciju. Provjerili smo kako izbor $k$ utječe na točnost klasifikatora,
 i nije bilo neke znatne razlike, pa smo uzeli $k = 5$.
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{minipage}{0.5\textwidth}
 \centering
 \includegraphics[width=\textwidth]{images/testK-fold.png}
@@ -222,6 +222,8 @@ Kod izbora značajki, najbolje rezultate za Naive Bayes dobili smo
 kada smo za značajke koristili najinformativnije značajke Naive Bayes
 klasifikatora (koji je korišten samo u svhru odabira značajki, na njemu nismo
 testirali).
+
+\subsection{SVM}
 
 Kod izbora značajki, najbolji rezultat za SVM smo dobili kod izbora liste
 sentiment riječi.
@@ -306,7 +308,7 @@ koristili u unakrsnoj validaciji)
 \begin{minipage}{0.5\textwidth}
 \centering
 \includegraphics[width=\textwidth]{images/SVM_tocnost.png}
-\caption{Točnost Naive Bayes (tamno plavo) \& SVM RBF (svjetlo plavo) \& SVM Linear (žuto) \& SVM Polynomial (crveno)}
+\caption{Točnost Naive Bayes (tamno plavo) \& SVM RBF (svjetlo plavo) \& SVM Linear (žuto) \& SVM Polynomial (crveno) za različiti izbor značajki}
 \end{minipage}
 \end{figure}
 
