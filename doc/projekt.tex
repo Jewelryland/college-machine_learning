@@ -84,17 +84,17 @@ Za crtanje grafova - bar dijagrama i linijskih grafova koristili smo Matlab prog
 
 Značajke (\textit{features}) su karakteristike teksta pomoću kojih metoda nastoji dobiti sliku o tome koji stav dominira u tekstu. Odabir značajki vrlo je važan proces jer bitno utječe na brzinu i kvalitetu klasifikacije. Potrebno je odabrati one značajke koje će nam na neki način dati najviše informacije o stavu teksta pazeći pritom da ih ne odaberemo niti previše, a niti premalo. Odaberemo li previše značajki, učenje klasifikatora može trajati jako dugo, a postoji i opasnost od pretreniranja (overfitting). S druge strane, premali broj značajki sigurno neće dati zadovoljavajuću klasifikaciju na novim primjerima, a mogući je čak i underfitting.
 
-Kao značajke ćemo koristiti prvenstveno riječi iz liste odabranih sentiment riječi \cite{words} koje su se pokazale kao dobar indikator stava u filmskim kritikama. Ovaj skup sadrži oko 6800 riječi. Samo ovakvim jednostavnim pristupom uspjeli smo postići zadovoljavajuću točnost (oko $80\%$ za Naive Bayes). No, učenje klasifikatora je relativno sporo zbog prevelikog broja značajki. Ipak, zbog dobrog rezultata klasifikacije, daljnji odabir značajki ćemo raditi na temelju ove liste riječi.
+Kao značajke ćemo koristiti prvenstveno riječi iz liste odabranih sentiment riječi \cite{words} koje su se pokazale kao dobar indikator stava u filmskim kritikama. Ovaj skup sadrži oko 6800 riječi. Samo ovakvim jednostavnim pristupom uspjeli smo postići zadovoljavajuću točnost (oko $80\%$ za sve metode uz male varijacije). No, učenje klasifikatora je relativno sporo zbog prevelikog broja značajki. Ipak, zbog dobrog rezultata klasifikacije, daljnji odabir značajki ćemo raditi na temelju ove liste riječi.
 
 Kod analize kritika služit ćemo se jednostavnom metodom "bag of words" koja se temelji samo na pojavljivanju (prisutstvu ili frekvenciji) značajke u tekstu, ne uzimajući u obzir poredak i vezu s ostalim značajkama. Dakle, pretpostavljamo da su značajke nezavisne.
 
 \subsection{Najveća frekvencija}
 
-Jedna od najjednostavnijih metoda odabira značajki je promatranje frekvencije potencijalne značajke u skupu za učenje. Za svaku riječ ćemo izračunati njenu apsolutnu frekvenciju (ukupan broj pojavljivanja) u svim kritikama iz korištenog skupa za učenje. Riječi ćemo zatim sortirati silazno po frekvenciji te prvih 1000 koristiti kao značajke u metodama klasifikacije. Iako je vrlo jednostavna, ova metoda je dala iznenađujuće dobre rezultate (oko $80\%$ točnosti za Naive Bayes).
+Jedna od najjednostavnijih metoda odabira značajki je promatranje frekvencije potencijalne značajke u skupu za učenje. Za svaku riječ ćemo izračunati njenu apsolutnu frekvenciju (ukupan broj pojavljivanja) u svim kritikama iz korištenog skupa za učenje. Riječi ćemo zatim sortirati silazno po frekvenciji te prvih 1000 koristiti kao značajke u metodama klasifikacije. Iako je vrlo jednostavna, ova metoda je dala iznenađujuće dobre rezultate (oko $80\%$).
 
 \subsection{TF-IDF}
 
-TF-IDF (\textit{Term Frequency, Inverse Document Frequency}) je način vrednovanja važnosti neke riječi u dokumentu temeljen na tome koliko se često ta riječ pojavljuje u danom skupu dokumenata. Ako se riječ pojavljuje često u dokumentu, ona je važna te ćemo joj dodijeliti visoki rezultat. No, ako se riječ pojavljuje u velikom broju dokumenata, ona vjerojatno neće biti dobar indikator stava pa ćemo joj dodijeliti mali rezultat. Za svaku riječ proći ćemo po svim kritikama i izračunati pripadni TF-IDF te zapamtiti maksimalnu vrijednost. Spremit ćemo 1000 riječi s najvećom maksimalnom TF-IDF vrijedošću te ih kasnije koristiti kao značajke kod klasifikacije. Ova metoda se nije pokazala dobrom jer je smanjila točnost modela (na oko $70\%$ za Naive Bayes).
+TF-IDF (\textit{Term Frequency, Inverse Document Frequency}) je način vrednovanja važnosti neke riječi u dokumentu temeljen na tome koliko se često ta riječ pojavljuje u danom skupu dokumenata. Ako se riječ pojavljuje često u dokumentu, ona je važna te ćemo joj dodijeliti visoki rezultat. No, ako se riječ pojavljuje u velikom broju dokumenata, ona vjerojatno neće biti dobar indikator stava pa ćemo joj dodijeliti mali rezultat. Za svaku riječ proći ćemo po svim kritikama i izračunati pripadni TF-IDF te zapamtiti maksimalnu vrijednost. Spremit ćemo 1000 riječi s najvećom maksimalnom TF-IDF vrijedošću te ih kasnije koristiti kao značajke kod klasifikacije. Ova metoda se nije pokazala dobrom jer je smanjila točnost modela (na oko $70\%$).
 
 \subsection{Najinformativnije značajke Naive Bayes klasifikatora}
 
@@ -361,14 +361,16 @@ Mjerili smo i \textit{precision}, \textit{recall} i \textit{$F_1$ score}:
 super, a \textit{$F_1$ score} je ispadao u prosjeku oko 0.83.
 
 \section{Rezultati}
-Možemo reći da smo dobili očekivane rezultate. Očekivali smo da će metoda
-potpornih vektora bolje klasificirati od Naive-Bayes metode. Kod odabira
-značajki $tf-idf$ se pokazuje kao najgori. Pretpostavljamo da je to zbog toga
+Sve metode kod većine odabira značajki prikazuju slične rezultate. U ovisnosti o metodi odabira značajki, njihova točnost varira na oko $82\%$. Kod odabira
+značajki uz metodu $tf-idf$, rezultati ispadaju najgori - točnost ispada svega $70\%$. Pretpostavljamo da je to zbog toga
 što se one riječi koje su česte u svim dokumentima smatraju kao "zajedničke" i
 njihova "težina" (uloga) postaje manja. Tako na primjer ako se riječ $good$
 pojavljuje u gotovo svim dokumentima $tf-idf$ će mu pridružiti težinu nula
 ($idf=\log \frac{\text{Ukupan broj dokumenata}}{\text{broj dokuemata u kojima
-se riječ pojavljuje}}$) pa će se taj pojam smatrati irelevantnim.
+se riječ pojavljuje}}$) pa će se taj pojam smatrati irelevantnim. Nadalje, testiranjem za razne $k$-ove u $k$-strukoj unakrsnoj validaciji, uvijdeli smo da nema bitnih razlika u točnosti, pa smo izabrali $5$-struku unakrsnu validaciju. Jedna od većih razlika (oko $5\%$) se uočila tek za $k=300$.
+
+\section{Zaključak}
+U konačnosti možemo reći da se naši rezultati djelomično poklapaju s očekivanjima. Metoda potpornih vektora u globalu daje neznatno bolje rezultate. Naive Bayes daje bolje rezultate kada smo kao metodu za izbor značajki odabrali najinformativnije riječi. Procjenjena greška koja se događa na testnom skupu ispada u prosjeku oko $17\%$ za odabir značajki različit od $tf-idf$, inače prosječna greška ispada oko $30\%$.
 \begin{thebibliography}{1}
 
 \bibitem{thumbsup}
