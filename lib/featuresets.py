@@ -1,4 +1,5 @@
 import nltk
+import random
 
 class Featuresets:
     @classmethod
@@ -12,5 +13,7 @@ class Featuresets:
             tokens = set(tokenizer.tokenize(document))
             features = {word: True for word in words & (tokens - stopwords)}
             featuresets.append((features, polarity))
+
+        random.shuffle(featuresets)
 
         return featuresets
