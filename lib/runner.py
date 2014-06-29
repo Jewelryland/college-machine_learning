@@ -25,7 +25,7 @@ class Runner:
 
         self.log("Cross validating...")
         accuracy = classifier.cross_validate(5, self.train_set)
-
+    
         self.log("%.2f (accuracy)" % (accuracy))
 
         self.log("Training and testing...")
