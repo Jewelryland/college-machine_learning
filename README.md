@@ -7,7 +7,7 @@ Data
 ----
 
 Inside the `data/` folder, there are movie reviews, which are separated into
-positive and negative reviews. This data has been taken from and [online
+positive and negative reviews. This data has been taken from an [online
 database](https://www.cs.cornell.edu/people/pabo/movie-review-data/).
 
 There are also words, which are split into positive and negative. Later
@@ -48,16 +48,13 @@ You can choose whether you'll use all positive and negative words, or just
 more specific/helpful for the reviews, by setting the `word_list` variable
 in the top of the file.
 
-### `select_words.py`
-
+### `parameters.py`
 
 ```sh
-$ python select_words.py
+$ python parameters.py
 ```
 
-It trains the classifiers, and saves the most informative features to
-`doc/words/select-most-informative.txt`, so that we can use it in `basic.py`
-for better classification.
+It contains code (unstable) for finding the right parameters for SVM.
 
 ### `select_words_frequency.py`
 
@@ -76,7 +73,3 @@ It contains the core logic. It loads appropriate words, and trains on them
 and does simple or k-fold cross validation. It has two classifiers: Naive Bayes
 and SVM (3 variants).
 
-### `Pokusaj mijenjanja parametara/`
-
-It contains code where we were experimenting which parameters for SVM are giving
-the best results. Those best parameters are then included in `lib/`.
