@@ -30,7 +30,8 @@ class Runner:
 
         self.log("Training and testing...")
         confusion_matrix = classifier.train_and_test(self.train_set, self.test_set)
-
+        testAccuracy=confusion_matrix.accuracy()
+        
         # Data.save_most_informative_words(classifier.most_informative_words(500))
 
         example_reviews = [
@@ -45,7 +46,7 @@ class Runner:
         self.log("Recall:    %g" % confusion_matrix.recall())
         self.log("F1 score:  %g" % confusion_matrix.f1_score())
 
-        return accuracy
+        return accuracy, testAccuracy
 
     def log(self, string):
         if self.verbose:
