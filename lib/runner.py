@@ -8,8 +8,8 @@ class Runner:
         self.verbose = verbose
 
         self.log("Loading data...")
-        self.words    = Data.load_words("tfidf")
-        reviews  = Data.load_reviews()
+        self.words = Data.load_words("most_informative")
+        reviews = Data.load_reviews()
 
         self.log("Feature extraction...")
         data_set = Featuresets.get(reviews, self.words)
@@ -23,10 +23,16 @@ class Runner:
             self.log(name)
             self.log("============================")
 
-        self.log("Cross validating...")
-        accuracy = classifier.cross_validate(5, self.train_set)
+        if name != "Naive Bayes":
+            self.log("Cross validating for parameters selection...")
+            accuracy = classifier.cross_validate(5, self.train_set)
 
-        self.log("%.2f (accuracy)" % (accuracy))
+            self.log("%.2f (accuracy)" % (accuracy))
+
+        self.log("Cross validating for method evaluation...")
+        accuracy = classifier.cross_validate(5, self.train_set + self.test_set)
+        
+        self.log("%.4f (accuracy)" % (accuracy))
 
         self.log("Training and testing...")
         confusion_matrix = classifier.train_and_test(self.train_set, self.test_set)
