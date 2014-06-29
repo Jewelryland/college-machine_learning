@@ -77,6 +77,9 @@ NLTK je pretežito namjenjen učenju o računalnoj obradi prirodnog jezika ili p
 
 scikit-learn je open source biblioteka za strojno učenje pomoću programskog jezika Python. Sadrži različite algoritme za klasifikaciju, regresiju i klasteriranje uključujući SVM, logističku regresiju, Naive Bayes algoritam, k-means i mnoge druge. Ova biblioteka povezana je s numeričkim i znanstvenim Python bibliotekama NumPy i SciPy. Mi smo je koristili kod klasifikacije metodom potpornih vektora (SVM).
 
+\subsection{Matlab}
+Za crtanje grafova - bar dijagrama i linijskih grafova koristili smo Matlab programski paket. Crtanje tih dijagrama nam pomaže da shvatimo odnos točnosti među različitim modelima.
+
 \section{Odabir značajki}
 
 Značajke (\textit{features}) su karakteristike teksta pomoću kojih metoda nastoji dobiti sliku o tome koji stav dominira u tekstu. Odabir značajki vrlo je važan proces jer bitno utječe na brzinu i kvalitetu klasifikacije. Potrebno je odabrati one značajke koje će nam na neki način dati najviše informacije o stavu teksta pazeći pritom da ih ne odaberemo niti previše, a niti premalo. Odaberemo li previše značajki, učenje klasifikatora može trajati jako dugo, a postoji i opasnost od pretreniranja (overfitting). S druge strane, premali broj značajki sigurno neće dati zadovoljavajuću klasifikaciju na novim primjerima, a mogući je čak i underfitting.
@@ -139,7 +142,7 @@ Osnovna pretpostavka koju koristi Naive Bayes je da su značajke međusobno neza
 
 \[P(x_1, x_2, \ldots, x_n|c) = \prod_{i=1}^n P(x_i|c).\]
 
-Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona očito pogrešna, Naive Bayes se pokazao kao jako dobra metoda za klasifikaciju teksta, pa tako i za analizu stava. U našem slučaju (analiza stava u filmskim kritikama), uz dobar odabir značajki, daje također zadovoljavajuće rezultate (u najboljem slučaju uspjeli smo postići točnost od $85.6\%$ na skupu za testiranje).
+Ova pretpostavka uvodi se zbog brzine i jednostavnijeg računanja. Iako je ona očito pogrešna, Naive Bayes se pokazao kao jako dobra metoda za klasifikaciju teksta, pa tako i za analizu stava. U našem slučaju (analiza stava u filmskim kritikama), uz dobar odabir značajki, daje također zadovoljavajuće rezultate (u najboljem slučaju uspjeli smo postići točnost od $87.2\%$ na skupu za testiranje).
 
 \subsection{SVM}
 
@@ -188,8 +191,16 @@ poglavlju):
 \begin{comment}
 Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime, ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.} pa smo je radi jednostavnosti uzeli i za Naive Bayes metodu.
 \end{comment}
-Kod evaluacije smo koristili k-fold unakrsnu validaciju. Prvo smo gledali utječe li parametar $k$ na mjeru za točnost.
-Za $k=3,5,7,10,30$ nismo dobili uočljive promjene na točnosti, dok smo za $k=300$ došli do neznačajnih promjena od $5\%$ (u negativnom smislu).  
+Kod evaluacije smo koristili $k$-fold unakrsnu validaciju. Prvo smo gledali utječe li parametar $k$ na mjeru za točnost. Rezultati tih mjerenja mogu se vidjeti  na donjem dijagramu:
+
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/testK-fold.png}
+\caption{Mjerenje točnosti za razne indekse $k$ u $k$-strukoj unakrsnoj validaciji-značajke čini lista sentimenta riječi}
+\end{minipage}
+\end{figure}
+
 Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili najinformativnije značajke Naive Bayes klasifikatora (koji je korišten samo u svhru odabira značajki, na njemu nismo testirali). Najbolji rezultat za SVM (bilo koji od navedenih) dan je za izbor liste sentiment riječi.
 
 \begin{figure}[!ht]
