@@ -8,17 +8,17 @@ runner.run(
     "Naive Bayes"
 )
 
-# runner.run(
-#     SVM(kernel='rbf', C=0.02),
-#     "SVM (RBF)"
-# )
+runner.run(
+    SVM(kernel='rbf', C=0.91, gamma=0.03125),
+    "SVM (RBF)"
+)
 
 runner.run(
-    SVM(kernel='linear', C=0.02),
+    SVM(kernel='linear', C=0.05),
     "SVM (Linear)"
 )
 
 runner.run(
-    SVM(kernel='poly', C=0.02, degree=1, gamma=1),
+    SVM(kernel='poly', C=0.7, degree=2, gamma=0.25),
     "SVM (Polynomial)"
 )

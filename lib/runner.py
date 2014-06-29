@@ -41,7 +41,8 @@ class Runner:
         for review in example_reviews:
             (document, polarity) = Featuresets.get([review], self.words)[0]
             self.log("Classification: \"%s\" => %s" % (review[0], polarity))
-
+        
+        self.log("Accuracy: %g" % confusion_matrix.accuracy())
         self.log("Precision: %g" % confusion_matrix.precision())
         self.log("Recall:    %g" % confusion_matrix.recall())
         self.log("F1 score:  %g" % confusion_matrix.f1_score())

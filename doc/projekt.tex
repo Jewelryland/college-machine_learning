@@ -58,11 +58,11 @@ Analiza stava (\textit{Sentiment Analysis}) je problem klasifikacije teksta čij
 
 \section{Uvod}
 
-Analiza stava jedan je od zadataka prirodne obrade teksta (\textit{Natural Language Processing} -- NLP), grane računarstva, umjetne inteligencije i lingvistike koja se bavi interakcijama između računala i ljudskog (prirodnog) jezika. Jedan od glavnih izazova u NLP je omogućiti računalima ``razumijevanje" prirodnog jezika, to jest omogućiti im obradu teksta napisanog prirodnim jezikom u svrhu automatskog generiranja željenih rezultata. Današnji NLP algoritmi koriste metode strojnog učenja, najčešće statističke metode. Sljedeće tri metode pokazale su se vrlo efikasnim kod rješavanja problema klasične klasifikacije teksta po temi: Naive Bayes, metoda maksimalne entropije (\textit{Maximum Entropy}) i metoda potpornih vektora (\textit{Support Vector Machines} -- SVM). Analiza stava pokazala se nešto zahtjevnijim (ali i izazovnijim) zadatkom pa ne očekujemo tako dobre rezultate. Naime, ono što analizu stava čini teškom je to da stav nije samo zbroj sentimentalne vrijednosti riječi već ovisi i o kontekstu, a i često se izražava neizravno. Ipak, ove standardne metode trebale bi dati zadovoljavajuće rezultate pa ćemo dvije od navedenih iskoristiti u našem istraživanju: Naive Bayes i SVM.
+Analiza stava jedan je od zadataka prirodne obrade teksta (\textit{Natural Language Processing} -- NLP), grane računarstva, umjetne inteligencije i lingvistike koja se bavi interakcijama između računala i ljudskog (prirodnog) jezika. Jedan od glavnih izazova u NLP je omogućiti računalima "razumijevanje" prirodnog jezika, to jest omogućiti im obradu teksta napisanog prirodnim jezikom u svrhu automatskog generiranja željenih rezultata. Današnji NLP algoritmi koriste metode strojnog učenja, najčešće statističke metode. Sljedeće tri metode pokazale su se vrlo efikasnim kod rješavanja problema klasične klasifikacije teksta po temi: Naive Bayes, metoda maksimalne entropije (\textit{Maximum Entropy}) i metoda potpornih vektora (\textit{Support Vector Machines} -- SVM). Analiza stava pokazala se nešto zahtjevnijim (ali i izazovnijim) zadatkom pa ne očekujemo tako dobre rezultate. Naime, ono što analizu stava čini teškom je to da stav nije samo zbroj sentimentalne vrijednosti riječi već ovisi i o kontekstu, a i često se izražava neizravno. Ipak, ove standardne metode trebale bi dati zadovoljavajuće rezultate pa ćemo dvije od navedenih iskoristiti u našem istraživanju: Naive Bayes i SVM.
 
 \section{Opis problema}
 
-Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili negativan, to jest naučiti klasifikator da što bolje (točnije) raspoređuje tekstove na ove dvije klase. Konkretno, bavimo se pitanjem da li je filmska kritika pozitivna ili negativna. Koristit ćemo skup podataka ``Movie Review Data" \cite{dataset}, točnije polarity dataset, koji je sastoji od ukupno 2000 tekstova filmskih kritika pisanih na engleskom jeziku, 1000 pozitivnih i 1000 negativnih. Pomoću ovog skupa podataka i metoda strojnog učenja omogućit ćemo da klasifikator određuje i stav novih kritika (na kojima nije treniran).
+Cilj ovog istraživanja je otkriti da li je stav nekog teksta pozitivan ili negativan, to jest naučiti klasifikator da što bolje (točnije) raspoređuje tekstove na ove dvije klase. Konkretno, bavimo se pitanjem da li je filmska kritika pozitivna ili negativna. Koristit ćemo skup podataka "Movie Review Data" \cite{dataset}, točnije polarity dataset, koji je sastoji od ukupno 2000 tekstova filmskih kritika pisanih na engleskom jeziku, 1000 pozitivnih i 1000 negativnih. Pomoću ovog skupa podataka i metoda strojnog učenja omogućit ćemo da klasifikator određuje i stav novih kritika (na kojima nije treniran).
 
 \section{Alati}
 
@@ -113,7 +113,7 @@ Most Informative Features
                   hatred = True           positi : negati =     10.4 : 1.0
         incomprehensible = True           negati : positi =      8.9 : 1.0
 \end{lstlisting}
-\caption{Najinformativnije značajke i njihov ``likelihood ratio"}
+\caption{Najinformativnije značajke i njihov "likelihood ratio"}
 \end{minipage}
 \end{figure}
 
@@ -157,17 +157,16 @@ Prednosti metode potpornih vektora su nad Naivnim Bayesom su:
 Mane metode potpornih vektora su:
 
 \begin{itemize}
-  \item ako je broj značajki puno veći od broja uzoraka, onda će metoda vjerojatno
+  \item ako je broj značajki puno veći od broja uzoraka, onda metoda vjerojatno
     neće davati dobre rezultate
   \item potproni vektori ne daju direktno vjerojatnosne procjene, one se računaju
     (skupom) 5-strukom unakrsnom validacijom
 \end{itemize}
 
-Postoje dvije poznate vrste kernela koje se koriste: Linearni, polinomijalni i
+Postoje tri poznate vrste kernela koje se koriste: Linearni, polinomijalni i
 RBF\footnote{eng. \textit{Radial basis function}, funkcija koja ovisi samo o
 udaljenosti od neke točke, tzv. \textit{radijalna} funkcija}. Od ova 3 kernela,
-Linearni i polinomijalni su nam dobro funkcionirali, ali RBF je imao previše
-malu preciznost (50\%), pa ga nećemo navoditi u rezultatima.
+Linearni i polinomijalni su nam dobro funkcionirali.
 
 SVM ima veliki broj parametara kojima možemo specificirati točno kako želimo
 da naš algoritam radi. Mi smo koristili sljedeće parametre (i
@@ -180,9 +179,6 @@ poglavlju):
   \item{\textbf{degree}:} Kada koristimo polinomijalni kernel, onda ova opcija
     specificira stupanj polinoma
   \item{\textbf{gamma}:} Koeficijent kernela
-  \item{\textbf{cache\_size}:} Specificira veličinu cache-a kernela, može biti
-    veći ako imamo više RAMA
-  \item{\textbf{max\_iter}:} Maksimalni broj iteracija (ili -1 za neograničenost)
   \item{\textbf{tol}:} Tolerancija konvergiranja, u kojem trenutku će algoritam
     stati
 \end{itemize}

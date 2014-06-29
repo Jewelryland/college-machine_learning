@@ -16,7 +16,7 @@ class Data:
             for line in open(join('data/words', filename), 'r'):
                 word = line.rstrip() # remove trailing newline
                 words.append(word)
-
+                
         return set(words)
 
     @classmethod
