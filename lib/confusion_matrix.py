@@ -9,12 +9,11 @@ class ConfusionMatrix:
         self.fn = matrix['negative', 'positive']
         self.tn = matrix['negative', 'negative']
         #debugging...
-        '''print '=========CM================'
-        print self.tp
-        print self.fp
-        print self.fn
-        print self.tn
-        print "=============CM==========="'''
+        print '=========ConfusionMatrix================'
+        print str(self.tp)  + '      '+  str(self.fp)
+        print '\n'
+        print str(self.fn)  + '      '+  str(self.tn)
+        print "=========ConfusionMatrix================"
 
     def precision(self):
         try:

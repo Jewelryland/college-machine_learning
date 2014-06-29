@@ -3,6 +3,7 @@
 \usepackage[croatian]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{comment}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -184,10 +185,12 @@ poglavlju):
 \end{itemize}
 
 \section{Evaluacija}
-
+\begin{comment}
 Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime, ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.} pa smo je radi jednostavnosti uzeli i za Naive Bayes metodu.
-
-Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili najinformativnije značajke Naive Bayes klasifikatora (koji je korišten samo u svhru odabira značajki, na njemu nismo testirali). 
+\end{comment}
+Kod evaluacije smo koristili k-fold unakrsnu validaciju. Prvo smo gledali utječe li parametar $k$ na mjeru za točnost.
+Za $k=3,5,7,10,30$ nismo dobili uočljive promjene na točnosti, dok smo za $k=300$ došli do neznačajnih promjena od $5\%$ (u negativnom smislu).  
+Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili najinformativnije značajke Naive Bayes klasifikatora (koji je korišten samo u svhru odabira značajki, na njemu nismo testirali). Najbolji rezultat za SVM (bilo koji od navedenih) dan je za izbor liste sentiment riječi.
 
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
@@ -207,21 +210,61 @@ Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili naj
 \end{minipage}
 \end{figure}
 
-Sljedeći graf prikazuje rezultate testiranja Naive Bayes i SVM metode za različite metode odabira značajki.
+\begin{comment}
+
+Najbolje rezultate za metodu potpornih vektora (SVM) i općenito smo, testirajući, dobili za linearni kernel uz $C=0.02$ te polinomijalni kernel uz $c=0.02$ i stupanj polinoma $d=1$. Zapravo ispada da je odabrani polinomijalni kernel linearan - iz čega možemo zaključiti da su naši podaci "približno" linearno separabilni. Testirajući, postigli smo točnost za linearni SVM uz navedene parametre od $0.89$, premda ona varira ovisno o odabiru značajki. Vrijednosti parametara koje smo dobili u $k$-fold  Cross Validation (CV u nastavku) se mogu vidjeti u tekstualnim datotekama \textit{Linear SVM.txt} i \textit{Polynomial SVM.txt}. Format pisanja u \textit{Polynomial SVM.txt} je u obliku $(c,g)=a$, gdje je $c$ parametar $C$, $g$ parametar $\gamma$, a $a$ prosječna preciznost $k$-fold CV-a dobivena za te parametre. 
+\end{comment}
+Kod metode potpornih vektora (SVM) smo u načelu zaključili da najbolje rezultate daje linearni kernel, ali to nije uvijek pravilo.  Testiranja su pokazala da polinomijalni kernel (stupnja 2) također daje dosta slične rezultate kao i linearni, isto smo zaključili i za RBF kernel. Parametre za kernele smo pretraživali pomoću 5-struke unakrsne validacije. Dobili smo sljedeće rezultate:
+\begin{itemize}
+	\item Linearni kernel: $C=0.05$
+	\item Polinomijalni kernel: $C=0.7, \gamma =0.25, st(p)=2$
+	\item RBF kernel: $C=0.91, \gamma =0.03125$
+\end{itemize}
+Pretraživanje po "mreži parametara" je prikazano sljedećim grafovima:
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/paramCPoly.png}
+\caption{Graf C/točnost za SVM s polinomijalnim kernelom}
+\end{minipage}
+\end{figure}
 
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
 \centering
-\includegraphics[width=\textwidth]{images/bayes.png}
-\caption{Preciznost Naive Bayes-a}
+\includegraphics[width=\textwidth]{images/paramDegreePoly.png}
+\caption{Graf Stupanj/točnost za SVM s polinomijalnim kernelom}
 \end{minipage}
 \end{figure}
 
-Najbolje rezultate za SVM  i općenito smo, testirajući, dobili za linearni kernel uz $C=0.02$ te polinomijalni kernel uz $c=0.02$ i stupanj polinoma $d=1$. Zapravo ispada da je odabrani polinomijalni kernel linearan - iz čega možemo zaključiti da su naši podaci "približno" linearno separabilni. Testirajući, postigli smo točnost za linearni SVM uz navedene parametre od $0.89$, premda ona varira ovisno o odabiru značajki. Vrijednosti parametara koje smo dobili u $k$-fold  Cross Validation (CV u nastavku) se mogu vidjeti u tekstualnim datotekama \textit{Linear SVM.txt} i \textit{Polynomial SVM.txt}. Format pisanja u \textit{Polynomial SVM.txt} je u obliku $(c,g)=a$, gdje je $c$ parametar $C$, $g$ parametar $\gamma$, a $a$ prosječna preciznost $k$-fold CV-a dobivena za te parametre. 
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/paramGammaPoly.png}
+\caption{Graf $\log _2(\gamma )$/točnost za SVM s polinomijalnim kernelom}
+\end{minipage}
+\end{figure}
 
-U nastavku je navedena matrica konfuzije za linearni SVM:
+Uočimo da smo za polinomijalan kernel, za odabir $\gamma$ parametra koristili logaritamsku skalu. Naime, izbor parametara $\gamma$ smo vršili na skupu $\{2^i| i \in \mathbb{Z}, -6 \leq i <6 \}$.  Izbor parametra $degree$ smo radili na skupu $\{2,3,4\}$, a izbor parametra $C$ na skupu $\{0+i \cdot 0.01 | i \in \{1,...,100\}\}$. Slijede grafovi na kojima možemo vidjeti kako se ponaša točnost za izbor parametara ostalih kernela:
 
-\newpage
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/allRBF.png}
+\caption{Graf $C$/točnost za SVM s RBF-om}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/paraCLinear.png}
+\caption{Graf $C$/točnost za SVM s linearnim kernelom}
+\end{minipage}
+\end{figure}
+
+
+U nastavku su navedene matrice konfuzije za razne kernele.
 
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
@@ -232,14 +275,65 @@ U nastavku je navedena matrica konfuzije za linearni SVM:
   \cline{3-4}
   \multicolumn{2}{|c|}{konfuzije} & pozitivno & negativno \\ 
   \hline
-  Predviđeno & pozitivno & 276 & 83 \\
+  Predviđeno & pozitivno & 217 & 61 \\
   \cline{2-4}
-  modelom & negativno & 32 & 209 \\
+  modelom & negativno & 37 & 185 \\
   \hline
 \end{tabular}
-\caption{Matrica konfuzije za Metodu potpornih vektora (točnost $81\%$) uz odabir značajki koje su najinformativnije}
+\caption{Matrica konfuzije za SVM (linearni kernel) (točnost $82\%$) uz odabir značajki koje su najinformativnije}
 \end{minipage}
 \end{figure}
+
+
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  \multicolumn{2}{|c|}{Matrica}  & \multicolumn{2}{|c|}{Stvarna klasa} \\ 
+  \cline{3-4}
+  \multicolumn{2}{|c|}{konfuzije} & pozitivno & negativno \\ 
+  \hline
+  Predviđeno & pozitivno & 214 & 56 \\
+  \cline{2-4}
+  modelom & negativno & 40 & 190 \\
+  \hline
+\end{tabular}
+\caption{Matrica konfuzije za SVM (polinomni kernel) (točnost $82\%$) uz odabir značajki koje su najinformativnije}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  \multicolumn{2}{|c|}{Matrica}  & \multicolumn{2}{|c|}{Stvarna klasa} \\ 
+  \cline{3-4}
+  \multicolumn{2}{|c|}{konfuzije} & pozitivno & negativno \\ 
+  \hline
+  Predviđeno & pozitivno & 217 & 58 \\
+  \cline{2-4}
+  modelom & negativno & 37 & 188 \\
+  \hline
+\end{tabular}
+\caption{Matrica konfuzije za SVM (RBF) (točnost $82\%$) uz odabir značajki koje su najinformativnije}
+\end{minipage}
+\end{figure}
+
+
+Sljedeći graf prikazuje rezultate testiranja Naive Bayes i SVM metode za različite metode odabira značajki.
+
+%ovdje se maknu komentari da se uključi slika comparison
+\begin{comment}
+\begin{figure}[!ht]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/comparison.png}
+\caption{Preciznost Naive Bayes (plavo) \& SVM (crveno)}
+\end{minipage}
+\end{figure}
+\end{comment}
 
 \begin{enumerate}
 	\item Lista sentiment riječi (oko 6800 riječi)
