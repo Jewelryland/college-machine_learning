@@ -10,6 +10,7 @@
 \usepackage{listings}
 \usepackage{caption}
 \usepackage{amsmath}
+\usepackage{float}
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
@@ -188,10 +189,20 @@ poglavlju):
 \end{itemize}
 
 \section{Evaluacija}
-\begin{comment}
-Za evaluaciju klasifikatora smo izabrali 5-struku unakrsnu validaciju. Naime, ona najbolje funkcionira za SVM\footnote{Pogledaj \cite{scikit}.} pa smo je radi jednostavnosti uzeli i za Naive Bayes metodu.
-\end{comment}
-Kod evaluacije smo koristili $k$-fold unakrsnu validaciju. Prvo smo gledali utječe li parametar $k$ na mjeru za točnost. Rezultati tih mjerenja mogu se vidjeti  na donjem dijagramu:
+
+Imali smo 4 različita izbora značajki, s kojima smo trenirali i evaluirali
+naše modele:
+
+\begin{enumerate}
+  \item Lista sentiment riječi (oko 6800 riječi)
+  \item Riječi s najvećom frekvencijom (1000 riječi)
+  \item Riječi s najvećom maksimalnom TF-IDF vrijednošću (1000 riječi)
+  \item Najinformativnije značajke Naive Bayes klasifikatora (500 riječi)
+\end{enumerate}
+
+Za provjeru modela i izbor parametera koristili smo k-struku unakrsnu
+validaciju. Provjerili smo kako izbor $k$ utječe na točnost klasifikatora,
+i nije bilo neke znatne razlike, pa smo uzeli $k = 5$.
 
 \begin{figure}[!ht]
 \begin{minipage}{0.5\textwidth}
@@ -201,9 +212,107 @@ Kod evaluacije smo koristili $k$-fold unakrsnu validaciju. Prvo smo gledali utje
 \end{minipage}
 \end{figure}
 
-Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili najinformativnije značajke Naive Bayes klasifikatora (koji je korišten samo u svhru odabira značajki, na njemu nismo testirali). Najbolji rezultat za SVM (bilo koji od navedenih) dan je za izbor liste sentiment riječi.
+U nastavku navodimo izbor značajki i parametre za svaki klasifikator. U
+sekciji "Rezultati" ćemo zatim navesti koji izbor parametara je bio najbolji,
+i koja je bila točnost svakog klasifikatora na testnom skupu.
 
-\begin{figure}[!ht]
+\subsection{Naive Bayes}
+
+Kod izbora značajki, najbolje rezultate za Naive Bayes dobili smo
+kada smo za značajke koristili najinformativnije značajke Naive Bayes
+klasifikatora (koji je korišten samo u svhru odabira značajki, na njemu nismo
+testirali).
+
+Kod izbora značajki, najbolji rezultat za SVM smo dobili kod izbora liste
+sentiment riječi.
+
+Općenito smo varirali parametre $C$, $\gamma$ i $degree$, na sljedećim skupovima:
+
+\begin{itemize}
+  \item $C \in \{0 + i \cdot 0.01 | i = 1,\ldots,100\}$
+  \item $\gamma \in \{2^i| i \in \mathbb{Z}, -6 \leq i <6 \}$ (grafove smo
+    prikazivali logaritamskom skalom)
+  \item $degree \in \{2,3,4\}$ ($degree = 1$ je zapravo linerani kernel)
+\end{itemize}
+
+\subsubsection{RBF kernel}
+
+Varirali $C$ i $\gamma$, i dobili smo sljedeća mjerenja za točnost:
+
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/allRBF.png}
+\caption{Graf $C$/točnost za SVM s RBF-om}
+\end{minipage}
+\end{figure}
+
+\subsubsection{Linearni kernel}
+
+Varirali smo $C$, i dobili smo sljedeća mjerenja za točnost:
+
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/paraCLinear.png}
+\caption{Graf $C$/točnost za SVM s linearnim kernelom}
+\end{minipage}
+\end{figure}
+
+\subsubsection{Polinomijalni kernel}
+
+Varirali smo $C$, $\gamma$ i $degree$, i dobili smo sljedeća mjerenja za točnost:
+
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/paramCPoly.png}
+\caption{Graf C/točnost za SVM s polinomijalnim kernelom}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/paramGammaPoly.png}
+\caption{Graf $\log _2(\gamma )$/točnost za SVM s polinomijalnim kernelom}
+\end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/paramDegreePoly.png}
+\caption{Graf Stupanj/točnost za SVM s polinomijalnim kernelom}
+\end{minipage}
+\end{figure}
+
+\section{Rezultati}
+
+Optimalni parametri za SVM (oni koji imaju najveću točnost u unakrsnoj
+validaciji) ispali su sljedeći:
+
+\begin{itemize}
+  \item RBF kernel: $C=0.91, \gamma =0.03125$
+  \item Linearni kernel: $C=0.05$
+  \item Polinomijalni kernel: $C=0.7, \gamma =0.25, degree=2$
+\end{itemize}
+
+Sljedeći graf prikazuje konačni rezultat našeg istraživanja, odnosno prikazuje
+usporedbu sva 4 klasifikatora na testnom skupu (novom skupu kojeg nismo
+koristili u unakrsnoj validaciji)
+
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\centering
+\includegraphics[width=\textwidth]{images/SVM_tocnost.png}
+\caption{Točnost Naive Bayes (tamno plavo) \& SVM RBF (svjetlo plavo) \& SVM Linear (žuto) \& SVM Polynomial (crveno)}
+\end{minipage}
+\end{figure}
+
+Navodimo i konfuzijske matrice svakog klasifikatora na istom testnom skupu.
+
+\begin{figure}[H]
 \begin{minipage}{0.5\textwidth}
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -221,63 +330,7 @@ Najbolje rezultate za Naive Bayes dobili smo kada smo za značajke koristili naj
 \end{minipage}
 \end{figure}
 
-\begin{comment}
-
-Najbolje rezultate za metodu potpornih vektora (SVM) i općenito smo, testirajući, dobili za linearni kernel uz $C=0.02$ te polinomijalni kernel uz $c=0.02$ i stupanj polinoma $d=1$. Zapravo ispada da je odabrani polinomijalni kernel linearan - iz čega možemo zaključiti da su naši podaci "približno" linearno separabilni. Testirajući, postigli smo točnost za linearni SVM uz navedene parametre od $0.89$, premda ona varira ovisno o odabiru značajki. Vrijednosti parametara koje smo dobili u $k$-fold  Cross Validation (CV u nastavku) se mogu vidjeti u tekstualnim datotekama \textit{Linear SVM.txt} i \textit{Polynomial SVM.txt}. Format pisanja u \textit{Polynomial SVM.txt} je u obliku $(c,g)=a$, gdje je $c$ parametar $C$, $g$ parametar $\gamma$, a $a$ prosječna preciznost $k$-fold CV-a dobivena za te parametre. 
-\end{comment}
-Kod metode potpornih vektora (SVM) smo u načelu zaključili da najbolje rezultate daje linearni kernel, ali to nije uvijek pravilo.  Testiranja su pokazala da polinomijalni kernel (stupnja 2) također daje dosta slične rezultate kao i linearni, isto smo zaključili i za RBF kernel. Parametre za kernele smo pretraživali pomoću 5-struke unakrsne validacije. Dobili smo sljedeće rezultate:
-\begin{itemize}
-	\item Linearni kernel: $C=0.05$
-	\item Polinomijalni kernel: $C=0.7, \gamma =0.25, st(p)=2$
-	\item RBF kernel: $C=0.91, \gamma =0.03125$
-\end{itemize}
-Pretraživanje po "mreži parametara" je prikazano sljedećim grafovima:
-\begin{figure}[!ht]
-\begin{minipage}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/paramCPoly.png}
-\caption{Graf C/točnost za SVM s polinomijalnim kernelom}
-\end{minipage}
-\end{figure}
-
-\begin{figure}[!ht]
-\begin{minipage}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/paramDegreePoly.png}
-\caption{Graf Stupanj/točnost za SVM s polinomijalnim kernelom}
-\end{minipage}
-\end{figure}
-
-\begin{figure}[!ht]
-\begin{minipage}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/paramGammaPoly.png}
-\caption{Graf $\log _2(\gamma )$/točnost za SVM s polinomijalnim kernelom}
-\end{minipage}
-\end{figure}
-
-Uočimo da smo za polinomijalan kernel, za odabir $\gamma$ parametra koristili logaritamsku skalu. Naime, izbor parametara $\gamma$ smo vršili na skupu $\{2^i| i \in \mathbb{Z}, -6 \leq i <6 \}$.  Izbor parametra $degree$ smo radili na skupu $\{2,3,4\}$, a izbor parametra $C$ na skupu $\{0+i \cdot 0.01 | i \in \{1,...,100\}\}$. Slijede grafovi na kojima možemo vidjeti kako se ponaša točnost za izbor parametara ostalih kernela:
-
-\begin{figure}[!ht]
-\begin{minipage}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/allRBF.png}
-\caption{Graf $C$/točnost za SVM s RBF-om}
-\end{minipage}
-\end{figure}
-
-\begin{figure}[!ht]
-\begin{minipage}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/paraCLinear.png}
-\caption{Graf $C$/točnost za SVM s linearnim kernelom}
-\end{minipage}
-\end{figure}
-
-
-U nastavku su navedene matrice konfuzije za razne kernele.
-
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{minipage}{0.5\textwidth}
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -295,8 +348,7 @@ U nastavku su navedene matrice konfuzije za razne kernele.
 \end{minipage}
 \end{figure}
 
-
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{minipage}{0.5\textwidth}
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -314,7 +366,7 @@ U nastavku su navedene matrice konfuzije za razne kernele.
 \end{minipage}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \begin{minipage}{0.5\textwidth}
 \centering
 \begin{tabular}{|c|c|c|c|}
@@ -332,45 +384,15 @@ U nastavku su navedene matrice konfuzije za razne kernele.
 \end{minipage}
 \end{figure}
 
-\begin{figure}[!ht]
-\begin{minipage}{0.5\textwidth}
-\centering
-\includegraphics[width=\textwidth]{images/SVM_tocnost.png}
-\caption{Točnost Naive Bayes (tamno plavo) \& SVM RBF (svjetlo plavo) \& SVM Linear (žuto) \& SVM Polynomial (crveno)}
-\end{minipage}
-\end{figure}
-
-Sljedeći graf prikazuje rezultate testiranja Naive Bayes i SVM metode za različite metode odabira značajki.
-
-\begin{enumerate}
-	\item Lista sentiment riječi (oko 6800 riječi)
-	\item Riječi s najvećom frekvencijom (1000 riječi)
-	\item Riječi s najvećom maksimalnom TF-IDF vrijednošću (1000 riječi)
-	\item Najinformativnije značajke Naive Bayes klasifikatora (500 riječi)
-\end{enumerate}
-
-Mjerili smo i \textit{precision}, \textit{recall} i \textit{$F_1$ score}:
-
-\begin{align*}
-  precision &= \frac{tp}{tp + fp}                              \\
-  recall    &= \frac{tp}{tp + fn}                              \\
-  F_1       &= 2 \frac{precision * recall}{precision + recall} \\
-\end{align*}
-
-\textit{Precision} i \textit{recall} su ispadali vrlo slično (oko 0.8), što je
-super, a \textit{$F_1$ score} je ispadao u prosjeku oko 0.83.
-
-\section{Rezultati}
-Sve metode kod većine odabira značajki prikazuju slične rezultate. U ovisnosti o metodi odabira značajki, njihova točnost varira na oko $82\%$. Kod odabira
-značajki uz metodu $tf-idf$, rezultati ispadaju najgori - točnost ispada svega $70\%$. Pretpostavljamo da je to zbog toga
-što se one riječi koje su česte u svim dokumentima smatraju kao "zajedničke" i
-njihova "težina" (uloga) postaje manja. Tako na primjer ako se riječ $good$
-pojavljuje u gotovo svim dokumentima $tf-idf$ će mu pridružiti težinu nula
-($idf=\log \frac{\text{Ukupan broj dokumenata}}{\text{broj dokuemata u kojima
-se riječ pojavljuje}}$) pa će se taj pojam smatrati irelevantnim. Nadalje, testiranjem za razne $k$-ove u $k$-strukoj unakrsnoj validaciji, uvijdeli smo da nema bitnih razlika u točnosti, pa smo izabrali $5$-struku unakrsnu validaciju. Jedna od većih razlika (oko $5\%$) se uočila tek za $k=300$.
-
 \section{Zaključak}
-U konačnosti možemo reći da se naši rezultati djelomično poklapaju s očekivanjima. Metoda potpornih vektora u globalu daje neznatno bolje rezultate. Naive Bayes daje bolje rezultate kada smo kao metodu za izbor značajki odabrali najinformativnije riječi. Procjenjena greška koja se događa na testnom skupu ispada u prosjeku oko $17\%$ za odabir značajki različit od $tf-idf$, inače prosječna greška ispada oko $30\%$.
+
+U konačnosti možemo reći da se naši rezultati djelomično poklapaju s
+očekivanjima. Metoda potpornih vektora u globalu daje neznatno bolje rezultate.
+Naive Bayes daje bolje rezultate kada smo kao metodu za izbor značajki odabrali
+najinformativnije riječi. Procjenjena greška koja se događa na testnom skupu
+ispada u prosjeku oko $17\%$ za odabir značajki različit od $tf-idf$, inače
+prosječna greška ispada oko $30\%$.
+
 \begin{thebibliography}{1}
 
 \bibitem{thumbsup}
