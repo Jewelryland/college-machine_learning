@@ -8,7 +8,7 @@ class Runner:
         self.verbose = verbose
 
         self.log("Loading data...")
-        self.words    = Data.load_words("most_informative")
+        self.words    = Data.load_words("tfidf")
         reviews  = Data.load_reviews()
 
         self.log("Feature extraction...")
